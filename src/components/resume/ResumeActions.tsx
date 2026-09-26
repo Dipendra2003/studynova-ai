@@ -1,5 +1,5 @@
 import React from 'react';
-import { Copy, Check, Download, Printer, RotateCcw, Sparkles, Edit3, Eye } from 'lucide-react';
+import { Copy, Check, Download, RotateCcw, Sparkles, Edit3, Eye } from 'lucide-react';
 
 interface ResumeActionsProps {
   onCopy: () => void;
@@ -7,7 +7,7 @@ interface ResumeActionsProps {
   onDownloadPdf: () => void;
   downloadingPdf: boolean;
   pdfDownloaded: boolean;
-  onPrint: () => void;
+  onPrint?: () => void;
   onRegenerate: () => void;
   regenerating: boolean;
   onReset: () => void;
@@ -74,15 +74,7 @@ export const ResumeActions: React.FC<ResumeActionsProps> = ({
           <span>{copied ? 'Copied' : 'Copy'}</span>
         </button>
 
-        <button
-          type="button"
-          onClick={onPrint}
-          className="px-3 py-1.5 rounded-xl text-xs font-bold bg-[#F7F8FA] hover:bg-[#DFE4F2] text-[#080909] border border-[#DFE4F2] flex items-center gap-1.5 transition-colors cursor-pointer"
-          title="Print resume or Save as PDF via browser"
-        >
-          <Printer className="w-3.5 h-3.5 text-[#080909]/70" />
-          <span>Print</span>
-        </button>
+        
 
         <button
           type="button"

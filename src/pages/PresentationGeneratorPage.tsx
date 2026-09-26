@@ -245,6 +245,29 @@ export const PresentationGeneratorPage: React.FC = () => {
 
   // Refs
   const fileInputRef = useRef<HTMLInputElement>(null);
+  // Mobile Touch Swipe Handling
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null || !presentation) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) {
+        // Swiped left -> Next slide
+        setCurrentSlideIndex((prev) => Math.min(presentation.slides.length - 1, prev + 1));
+      } else {
+        // Swiped right -> Previous slide
+        setCurrentSlideIndex((prev) => Math.max(0, prev - 1));
+      }
+    }
+    setTouchStartX(null);
+  };
+
 
   // ============================================================
   // FULLSCREEN HANDLERS (Browser API + State)
@@ -1082,7 +1105,7 @@ Key Takeaway: ${s.keyTakeaway || 'N/A'}
         <div className="lg:col-span-7 space-y-4">
           {/* Top Player Control Header */}
           <div className="bg-white border border-[#DFE4F2] rounded-2xl p-3 flex flex-wrap items-center justify-between gap-2 shadow-sm">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2 shrink-0">
               <span className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
                 <Presentation className="w-4 h-4 text-[#2563EB]" />
                 {viewMode === 'slide' ? 'Slide Deck Player' : 'Slide Sorter Grid'}
@@ -1260,7 +1283,7 @@ Key Takeaway: ${s.keyTakeaway || 'N/A'}
                 <>
                   {/* Inline 16:9 Presentation Card Screen */}
                   <div
-                    className={`relative aspect-video w-full rounded-2xl p-6 sm:p-8 flex flex-col justify-between overflow-hidden transition-all duration-300 ${currentTheme.slideWrapper}`}
+                    className={`relative min-h-[460px] sm:min-h-[500px] lg:aspect-video w-full rounded-2xl p-4 sm:p-6 md:p-8 flex flex-col justify-between overflow-hidden transition-all duration-300 ${currentTheme.slideWrapper}`}
                   >
                     {/* Top Slide Meta Header */}
                     <div className="flex justify-between items-center text-xs">
@@ -1291,7 +1314,7 @@ Key Takeaway: ${s.keyTakeaway || 'N/A'}
                     </div>
 
                     {/* Main Slide Content Area */}
-                    <div className="max-w-2xl mx-auto text-left my-auto space-y-4 w-full overflow-y-auto scrollbar-none pr-1">
+                    <div className="max-w-2xl mx-auto text-left flex-1 min-h-0 my-2 flex flex-col justify-start w-full overflow-y-auto scrollbar-none pr-1 space-y-3 sm:space-y-3.5">
                       {isEditing ? (
                         <div className="space-y-1">
                           <label className="text-[10px] font-bold uppercase tracking-wider opacity-70">
@@ -1305,7 +1328,7 @@ Key Takeaway: ${s.keyTakeaway || 'N/A'}
                           />
                         </div>
                       ) : (
-                        <h3 className={`text-lg sm:text-2xl lg:text-3xl pb-2 border-b leading-snug ${currentTheme.titleStyle} ${currentTheme.titleBorder}`}>
+                        <h3 className={`text-base sm:text-xl md:text-2xl font-black pb-2 border-b leading-tight tracking-tight shrink-0 ${currentTheme.titleStyle} ${currentTheme.titleBorder}`}>
                           {currentSlide?.title}
                         </h3>
                       )}
@@ -1348,9 +1371,9 @@ Key Takeaway: ${s.keyTakeaway || 'N/A'}
                           ))}
                         </div>
                       ) : (
-                        <ul className={`space-y-2 sm:space-y-3 text-xs sm:text-sm lg:text-base ${currentTheme.bulletText}`}>
+                        <ul className={`space-y-1.5 sm:space-y-2.5 text-xs sm:text-sm leading-relaxed ${currentTheme.bulletText}`}>
                           {currentSlide?.bullets.map((bullet, bIdx) => (
-                            <li key={bIdx} className="flex items-start gap-2.5 leading-relaxed">
+                            <li key={bIdx} className="flex items-start gap-2 sm:gap-2.5">
                               <span className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${currentTheme.bulletDot}`} />
                               <span>{bullet}</span>
                             </li>
@@ -1374,12 +1397,12 @@ Key Takeaway: ${s.keyTakeaway || 'N/A'}
                         </div>
                       ) : (
                         currentSlide?.keyTakeaway && (
-                          <div className="pt-2">
+                          <div className="pt-2 shrink-0 mt-auto">
                             <div className={`p-2.5 sm:p-3 rounded-xl ${currentTheme.takeawayBox}`}>
                               <span className={`text-[10px] sm:text-[11px] uppercase tracking-wider font-bold block mb-0.5 ${currentTheme.takeawayLabel}`}>
                                 Key Takeaway
                               </span>
-                              <p className={`text-xs sm:text-sm font-medium ${currentTheme.takeawayText}`}>
+                              <p className={`text-xs sm:text-sm font-medium leading-snug ${currentTheme.takeawayText}`}>
                                 {currentSlide.keyTakeaway}
                               </p>
                             </div>
@@ -1721,17 +1744,17 @@ Key Takeaway: ${s.keyTakeaway || 'N/A'}
       {isFullscreen && presentation && presentation.slides.length > 0 && (
         <div className="fixed inset-0 z-[99999] bg-[#07090E] flex flex-col justify-between select-none overflow-hidden animate-in fade-in duration-200">
           {/* Top HUD Bar */}
-          <div className="w-full px-4 sm:px-8 py-3 bg-black/50 backdrop-blur-md border-b border-white/10 flex items-center justify-between z-10 shrink-0">
-            <div className="flex items-center gap-3">
-              <span className="font-mono text-xs font-bold px-2.5 py-1 rounded-full bg-white/10 text-white border border-white/15">
+          <div className="w-full px-2 sm:px-6 py-2 sm:py-4 bg-black/50 backdrop-blur-md border-b border-white/10 flex items-center justify-between shrink-0 z-20 gap-2">
+            <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
+              <span className="px-1.5 sm:px-2 py-1 bg-white/10 rounded text-[10px] sm:text-xs font-mono font-bold text-white tracking-wider border border-white/10 shrink-0">
                 Slide {currentSlideIndex + 1} / {presentation.slides.length}
               </span>
-              <span className="text-xs sm:text-sm font-semibold text-white/90 truncate max-w-[200px] sm:max-w-md">
+              <span className="text-[10px] sm:text-sm font-semibold text-white/90 truncate min-w-0 flex-1">
                 {presentation.title}
               </span>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2 shrink-0">
               {/* Theme Quick Selector in Fullscreen */}
               <div className="hidden sm:flex items-center gap-1 bg-white/5 border border-white/10 rounded-lg p-1">
                 {(Object.keys(THEMES) as PresentationThemeId[]).map((tId) => (
@@ -1756,7 +1779,7 @@ Key Takeaway: ${s.keyTakeaway || 'N/A'}
               <button
                 type="button"
                 onClick={() => setShowFullscreenNotes(!showFullscreenNotes)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer border ${
+                className={`px-2 sm:px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer border ${
                   showFullscreenNotes
                     ? 'bg-indigo-600 text-white border-indigo-500 shadow-md'
                     : 'bg-white/10 hover:bg-white/15 text-white/80 border-white/15'
@@ -1764,24 +1787,24 @@ Key Takeaway: ${s.keyTakeaway || 'N/A'}
                 title="Toggle Presenter Speaker Notes (N)"
               >
                 <Volume2 className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Notes (N)</span>
+                <span className="hidden sm:inline">Notes</span>
               </button>
 
               {/* Exit Fullscreen */}
               <button
                 type="button"
                 onClick={exitFullscreen}
-                className="px-3 py-1.5 bg-rose-600/80 hover:bg-rose-600 text-white rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm"
+                className="px-2 sm:px-3 py-1.5 bg-rose-600/80 hover:bg-rose-600 text-white rounded-lg text-xs font-bold flex items-center justify-center transition-all cursor-pointer shadow-sm"
                 title="Exit Fullscreen (Esc)"
               >
                 <X className="w-3.5 h-3.5" />
-                <span>Exit (Esc)</span>
+                <span className="hidden sm:inline">Exit</span>
               </button>
             </div>
           </div>
 
           {/* Center Stage: Responsively Constrained 16:9 Presentation Canvas */}
-          <div className="flex-1 w-full min-h-0 flex items-center justify-center p-3 sm:p-6 md:p-8 lg:p-10 overflow-hidden relative">
+          <div className="flex-1 w-full min-h-0 flex items-center justify-center p-1 sm:p-3 md:p-6 lg:p-8 overflow-hidden relative">
             {/* Click zones / side arrows for mouse/touch presentation */}
             <button
               type="button"
@@ -1807,43 +1830,40 @@ Key Takeaway: ${s.keyTakeaway || 'N/A'}
 
             {/* The Scaled 16:9 Slide Box */}
             <div
-              className={`w-full max-w-[1400px] aspect-video rounded-2xl sm:rounded-3xl p-6 sm:p-10 md:p-12 lg:p-14 flex flex-col justify-between shadow-2xl relative transition-all duration-300 ${currentTheme.slideWrapper}`}
-              style={{
-                maxHeight: 'min(calc(100vh - 130px), calc(100vw * 9 / 16))'
-              }}
+              onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} className={`w-full max-w-[1400px] h-full sm:h-auto sm:aspect-video rounded-xl sm:rounded-2xl md:rounded-3xl p-3 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-between shadow-2xl relative transition-all duration-300 overflow-hidden ${currentTheme.slideWrapper}`}
             >
               {/* Slide Top Meta */}
               <div className="flex justify-between items-center text-xs shrink-0 pb-2">
-                <span className={`px-3 py-1 rounded-full text-xs font-mono font-semibold ${currentTheme.badgeStyle}`}>
+                <span className={`px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-xs font-mono font-semibold whitespace-nowrap shrink-0 ${currentTheme.badgeStyle}`}>
                   Slide {currentSlideIndex + 1} of {presentation.slides.length}
                 </span>
-                <span className="text-xs font-mono opacity-60">
+                <span className="text-[10px] sm:text-xs md:text-sm lg:text-base font-mono opacity-60 truncate max-w-[160px] sm:max-w-md md:max-w-xl lg:max-w-2xl text-right">
                   {presentation.title}
                 </span>
               </div>
 
               {/* Slide Main Content: Title + Bullets + Takeaway */}
-              <div className="flex-1 flex flex-col justify-center min-h-0 my-auto overflow-y-auto scrollbar-none pr-1 space-y-4 sm:space-y-6">
-                <h2 className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl pb-3 border-b leading-snug tracking-tight ${currentTheme.titleStyle} ${currentTheme.titleBorder}`}>
+              <div className="flex-1 flex flex-col justify-start min-h-0 overflow-y-auto scrollbar-none pr-1 space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-5 xl:space-y-6 py-1">
+                <h2 className={`text-base sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold pb-1.5 sm:pb-2.5 lg:pb-3 xl:pb-4 border-b leading-tight tracking-tight shrink-0 ${currentTheme.titleStyle} ${currentTheme.titleBorder}`}>
                   {currentSlide?.title}
                 </h2>
 
-                <ul className={`space-y-2.5 sm:space-y-4 text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed ${currentTheme.bulletText}`}>
+                <ul className={`space-y-1.5 sm:space-y-2.5 md:space-y-3 lg:space-y-4 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl leading-relaxed ${currentTheme.bulletText}`}>
                   {currentSlide?.bullets.map((bullet, bIdx) => (
-                    <li key={bIdx} className="flex items-start gap-3 sm:gap-4">
-                      <span className={`w-2.5 h-2.5 rounded-full mt-2 shrink-0 ${currentTheme.bulletDot}`} />
+                    <li key={bIdx} className="flex items-start gap-2.5 sm:gap-3.5">
+                      <span className={`w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 lg:w-4 lg:h-4 rounded-full mt-1.5 lg:mt-2 xl:mt-2.5 shrink-0 ${currentTheme.bulletDot}`} />
                       <span>{bullet}</span>
                     </li>
                   ))}
                 </ul>
 
                 {currentSlide?.keyTakeaway && (
-                  <div className="pt-2 sm:pt-4">
-                    <div className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl ${currentTheme.takeawayBox}`}>
-                      <span className={`text-[10px] sm:text-xs uppercase tracking-wider font-bold block mb-1 ${currentTheme.takeawayLabel}`}>
+                  <div className="pt-2 sm:pt-3 shrink-0 mt-auto">
+                    <div className={`p-2 sm:p-3 md:p-4 lg:p-4 xl:p-5 rounded-xl sm:rounded-2xl ${currentTheme.takeawayBox}`}>
+                      <span className={`text-[10px] sm:text-xs md:text-sm lg:text-base uppercase tracking-wider font-bold block mb-0.5 sm:mb-2 ${currentTheme.takeawayLabel}`}>
                         Key Takeaway
                       </span>
-                      <p className={`text-xs sm:text-sm md:text-base font-semibold ${currentTheme.takeawayText}`}>
+                      <p className={`text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-semibold leading-snug ${currentTheme.takeawayText}`}>
                         {currentSlide.keyTakeaway}
                       </p>
                     </div>
@@ -1918,7 +1938,7 @@ Key Takeaway: ${s.keyTakeaway || 'N/A'}
           </div>
 
           {/* Bottom HUD Bar / Keyboard Shortcuts Guide */}
-          <div className="w-full px-6 py-2.5 bg-black/50 backdrop-blur-md border-t border-white/10 flex items-center justify-between text-[11px] text-white/60 shrink-0">
+          <div className="hidden md:flex w-full px-6 py-2 bg-black/50 backdrop-blur-md border-t border-white/10 items-center justify-between text-[11px] text-white/60 shrink-0">
             <div className="flex items-center gap-4">
               <span>Use <kbd className="px-1.5 py-0.5 rounded bg-white/10 font-mono text-white">←</kbd> and <kbd className="px-1.5 py-0.5 rounded bg-white/10 font-mono text-white">→</kbd> or <kbd className="px-1.5 py-0.5 rounded bg-white/10 font-mono text-white">Space</kbd> to navigate</span>
               <span className="hidden sm:inline">&bull; <kbd className="px-1.5 py-0.5 rounded bg-white/10 font-mono text-white">N</kbd> for Speaker Notes</span>
