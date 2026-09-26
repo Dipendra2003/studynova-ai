@@ -1,0 +1,6 @@
+{
+  "name": "StudyNova AI",
+  "description": "Creative editorial AI workspace with 10 practical tools for students, creators and learners: resume builder, notes generator, presentation generator, mind map, Google Sheets, quiz generator, doubt solver, flashcards, study planner, and OCR summarizer.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

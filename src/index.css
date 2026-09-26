@@ -1,0 +1,236 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-page: #F0EEFA;
+    --text-primary: #080909;
+    --lavender-soft: #DFE4F2;
+    --surface-clean: #F7F8FA;
+    --accent-purple: #7C3AED;
+    --accent-blue: #2563EB;
+    --accent-pink: #EC4899;
+    --accent-mint: #10B981;
+    --accent-yellow: #F59E0B;
+  }
+
+  html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #F0EEFA;
+    color: #080909;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Epilogue', -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: -0.03em;
+  }
+
+  .font-body {
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+/* Global sleek scrollbar for Chromium & WebKit (Chrome, Edge, Brave, Safari) */
+::-webkit-scrollbar {
+  width: 5px !important;
+  height: 5px !important;
+}
+::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.35) !important;
+  border-radius: 9999px !important;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 58, 237, 0.6) !important;
+}
+::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+::-webkit-scrollbar-corner {
+  background: transparent !important;
+}
+
+/* Cross-browser scrollbar hide utility */
+.no-scrollbar {
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important; /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar,
+.no-scrollbar *::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari and Opera */
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+.no-scrollbar::-webkit-scrollbar-track,
+.no-scrollbar::-webkit-scrollbar-thumb,
+.no-scrollbar::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Firefox custom scrollbar support */
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(148, 163, 184, 0.4) transparent;
+  }
+}
+
+
+
+/* Subtle editorial animations and organic interactions */
+.perspective-1000 {
+  perspective: 1000px;
+}
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+}
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Motion-first editorial hover styles */
+@media (prefers-reduced-motion: no-preference) {
+  .editorial-card {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.3s ease,
+                border-color 0.3s ease;
+  }
+  .editorial-card:hover {
+    transform: translateY(-4px) rotate(0.4deg);
+  }
+  .editorial-card:hover:nth-child(even) {
+    transform: translateY(-4px) rotate(-0.4deg);
+  }
+}
+
+/* ========================================================= */
+/* A4 RESUME SHEET RESPONSIVE CONTAINER QUERIES             */
+/* ========================================================= */
+.a4-resume-sheet {
+  container-type: inline-size;
+  container-name: a4sheet;
+}
+
+@container a4sheet (max-width: 460px) {
+  .a4-candidate-name {
+    font-size: 13px !important;
+    line-height: 1.15 !important;
+  }
+  .a4-contact-bar {
+    font-size: 7.5px !important;
+    gap: 2px !important;
+  }
+  .a4-section-title {
+    font-size: 8px !important;
+    margin-bottom: 2px !important;
+    padding-bottom: 1px !important;
+  }
+  .a4-body-text {
+    font-size: 7px !important;
+    line-height: 1.22 !important;
+  }
+  .a4-sub-text {
+    font-size: 6.5px !important;
+  }
+  .a4-bullet-list {
+    padding-left: 10px !important;
+  }
+  .a4-bullet-list li {
+    font-size: 7px !important;
+    line-height: 1.22 !important;
+  }
+}
+
+/* ========================================================= */
+/* RESUME PRINT ISOLATION RULES                              */
+/* ========================================================= */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  html, body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 210mm !important;
+    min-height: 297mm !important;
+  }
+
+  /* Hide all app chrome, navigation, headers, forms, footers */
+  nav,
+  footer,
+  header,
+  .no-print,
+  button,
+  form,
+  .tool-header-container,
+  aside {
+    display: none !important;
+  }
+
+  /* Expand the printable resume container cleanly */
+  #printable-resume {
+    display: block !important;
+    width: 210mm !important;
+    max-width: 210mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+
+  .a4-resume-sheet {
+    width: 210mm !important;
+    min-height: 297mm !important;
+    max-width: 210mm !important;
+    margin: 0 !important;
+    padding: 14mm 15mm !important;
+    box-shadow: none !important;
+    border: none !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    box-sizing: border-box !important;
+  }
+
+  .a4-resume-sheet:last-child {
+    page-break-after: auto !important;
+    break-after: auto !important;
+  }
+
+  /* Clean page break avoidance */
+  h1, h2, h3, h4 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  p, li, ul {
+    orphans: 2;
+    widows: 2;
+  }
+}
+
