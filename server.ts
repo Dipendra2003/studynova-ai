@@ -20,7 +20,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Initialize Google Gen AI
-const apiKey = process.env.GEMINI_API_KEY || '';
+const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY || '';
 const ai = new GoogleGenAI({
   apiKey,
   httpOptions: {
@@ -32,6 +32,10 @@ const ai = new GoogleGenAI({
 
 // Helper to check if AI is configured
 const hasApiKey = Boolean(apiKey && apiKey.trim().length > 5);
+
+app.get(['/api/health', '/health'], (_req: Request, res: Response) => {
+  res.json({ status: 'ok', name: 'StudyNova AI', hasApiKey: Boolean(apiKey && apiKey.trim().length > 5) });
+});
 
 // Model Fallback Chain for Rate Limits / Quotas
 const GEMINI_MODELS = [
@@ -1107,4 +1111,8 @@ async function startServer() {
   });
 }
 
-startServer();
+if (!process.env.VERCEL) {
+  startServer();
+}
+
+export default app;
