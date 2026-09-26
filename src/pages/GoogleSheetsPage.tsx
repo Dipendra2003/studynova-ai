@@ -379,7 +379,7 @@ export const GoogleSheetsPage: React.FC = () => {
   }, [filteredRows, currentPage, rowsPerPage]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8 sm:py-8">
       {/* Hidden CSV file picker */}
       <input
         type="file"
@@ -417,33 +417,33 @@ export const GoogleSheetsPage: React.FC = () => {
       {/* ============================================================ */}
       <div className="bg-white border border-[#DFE4F2] rounded-3xl p-5 sm:p-6 mb-8 shadow-sm text-left transition-all">
         <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
-          <form onSubmit={handleConnect} className="flex-1 space-y-2">
-            <div className="flex items-center justify-between">
-              <label className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                <Link2 className="w-4 h-4 text-emerald-600" />
-                <span>Google Sheets Web App URL (Apps Script GET/POST)</span>
+          <form onSubmit={handleConnect} className="flex-1 space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <label className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-start sm:items-center gap-1.5">
+                <Link2 className="w-4 h-4 text-emerald-600 mt-0.5 sm:mt-0 shrink-0" />
+                <span className="leading-tight">Google Sheets Web App URL (Apps Script GET/POST)</span>
               </label>
               <button
                 type="button"
                 onClick={() => setShowScriptModal(true)}
-                className="text-[11px] font-semibold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 cursor-pointer"
+                className="text-[11px] font-semibold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 cursor-pointer self-start sm:self-auto"
               >
                 <Code2 className="w-3.5 h-3.5" />
                 <span>Get Apps Script Code</span>
               </button>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
               <input
                 type="url"
                 value={webAppUrl}
                 onChange={(e) => setWebAppUrl(e.target.value)}
-                className="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-emerald-500 font-mono"
+                className="flex-1 w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-emerald-500 font-mono"
                 placeholder="https://script.google.com/macros/s/.../exec"
               />
               <button
                 type="submit"
                 disabled={isSyncing}
-                className="px-4 py-2 bg-[#080909] hover:bg-emerald-600 disabled:opacity-50 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs shrink-0"
+                className="w-full sm:w-auto px-4 py-2 bg-[#080909] hover:bg-emerald-600 disabled:opacity-50 text-white rounded-xl text-xs font-bold flex items-center justify-center sm:justify-start gap-1.5 transition-all cursor-pointer shadow-xs shrink-0"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin' : ''}`} />
                 <span>{isSyncing ? 'Syncing...' : 'Sync Sheet'}</span>
@@ -452,7 +452,7 @@ export const GoogleSheetsPage: React.FC = () => {
           </form>
 
           {/* Quick Academic Dataset Switchers */}
-          <div className="lg:border-l lg:border-slate-200 lg:pl-6 space-y-1.5 shrink-0">
+          <div className="w-full lg:w-auto lg:border-l lg:border-slate-200 lg:pl-6 space-y-2 shrink-0 pt-4 lg:pt-0 border-t border-slate-200 lg:border-t-0 mt-4 lg:mt-0">
             <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
               Sample Academic Cohorts
             </span>
@@ -483,7 +483,7 @@ export const GoogleSheetsPage: React.FC = () => {
       {/* ============================================================ */}
       {/* SUMMARY STATS & COHORT KPIS ROW                             */}
       {/* ============================================================ */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 text-left">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 text-left">
         <div className="bg-white border border-[#DFE4F2] rounded-2xl p-4 shadow-sm space-y-1">
           <div className="flex items-center justify-between text-slate-500">
             <span className="text-[11px] font-bold uppercase tracking-wider">Class Average</span>
@@ -544,8 +544,8 @@ export const GoogleSheetsPage: React.FC = () => {
         {/* Left Column: Data Table & Controls (8 cols) */}
         <div className="lg:col-span-8 bg-white border border-[#DFE4F2] rounded-3xl p-5 sm:p-6 space-y-5 shadow-sm text-left">
           {/* Table Header Controls & Search */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-            <div className="relative w-full sm:w-60">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div className="relative w-full md:w-64 shrink-0">
               <Search className="w-4 h-4 absolute left-3 top-2.5 text-slate-400" />
               <input
                 type="text"
@@ -559,7 +559,7 @@ export const GoogleSheetsPage: React.FC = () => {
               />
             </div>
 
-            <div className="flex flex-wrap items-center gap-2 text-xs">
+            <div className="flex flex-wrap items-center gap-2 text-xs w-full md:w-auto">
               {/* Filter Status */}
               <select
                 value={filterStatus}
@@ -596,7 +596,7 @@ export const GoogleSheetsPage: React.FC = () => {
               <select
                 value={sortKey}
                 onChange={(e: any) => setSortKey(e.target.value)}
-                className="bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 text-slate-800 font-mono"
+                className="bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 text-slate-800 font-mono flex-1 min-w-[120px]"
               >
                 <option value="marks_desc">Marks ↓</option>
                 <option value="marks_asc">Marks ↑</option>

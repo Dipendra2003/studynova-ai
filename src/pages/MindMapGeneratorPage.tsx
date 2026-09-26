@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import {
   Network,
   ZoomIn,
@@ -246,6 +246,7 @@ export const MindMapGeneratorPage: React.FC = () => {
   const [collapsedNodes, setCollapsedNodes] = useState<Record<string, boolean>>({});
   const [searchQuery, setSearchQuery] = useState('');
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [needsRecenter, setNeedsRecenter] = useState(false);
 
   // Inspector & Editing State
   const [editTitle, setEditTitle] = useState('');
@@ -261,6 +262,7 @@ export const MindMapGeneratorPage: React.FC = () => {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const fullscreenContainerRef = useRef<HTMLDivElement>(null);
 
   // ============================================================
   // SEARCH & FILTER
@@ -302,12 +304,43 @@ export const MindMapGeneratorPage: React.FC = () => {
   }, [selectedNode]);
 
   // Center Root Node on initial generation or mode switch
-  const handleRecenter = () => {
+  const handleRecenter = useCallback(() => {
     if (!layoutResult) return;
-    setZoomLevel(1);
-    // Center at (0, 0)
-    setPanOffset({ x: 0, y: 0 });
-  };
+    
+    let containerWidth = window.innerWidth;
+    let containerHeight = 620;
+    
+    if (isFullscreen) {
+      containerHeight = window.innerHeight;
+    } else if (containerRef.current) {
+      containerWidth = containerRef.current.clientWidth;
+      containerHeight = containerRef.current.clientHeight;
+    }
+
+    const treeWidth = layoutResult.bounds.maxX - layoutResult.bounds.minX;
+    const treeHeight = layoutResult.bounds.maxY - layoutResult.bounds.minY;
+    
+    const paddingX = isFullscreen ? 120 : 60;
+    const paddingY = isFullscreen ? 120 : 60;
+    
+    const scaleX = (containerWidth - paddingX) / Math.max(treeWidth, 1);
+    const scaleY = (containerHeight - paddingY) / Math.max(treeHeight, 1);
+    
+    const optimalZoom = Math.min(1.5, Math.max(0.2, Math.min(scaleX, scaleY)));
+    
+    const centerX = (layoutResult.bounds.minX + layoutResult.bounds.maxX) / 2;
+    const centerY = (layoutResult.bounds.minY + layoutResult.bounds.maxY) / 2;
+    
+    setZoomLevel(optimalZoom);
+    setPanOffset({ x: -centerX * optimalZoom, y: -centerY * optimalZoom });
+  }, [layoutResult, isFullscreen]);
+
+  useEffect(() => {
+    if (needsRecenter && layoutResult) {
+      handleRecenter();
+      setNeedsRecenter(false);
+    }
+  }, [needsRecenter, layoutResult, handleRecenter]);
 
   // ============================================================
   // AI GENERATION HANDLER
@@ -327,8 +360,7 @@ export const MindMapGeneratorPage: React.FC = () => {
       setMindMapData(tree);
       setSelectedNode(tree);
       setCollapsedNodes({});
-      setPanOffset({ x: 0, y: 0 });
-      setZoomLevel(1);
+      setNeedsRecenter(true);
     } catch (err: any) {
       setError(err.message || 'Failed to generate visual mind map.');
     } finally {
@@ -363,11 +395,24 @@ export const MindMapGeneratorPage: React.FC = () => {
     setIsPanning(false);
   };
 
-  const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault();
-    const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
-    setZoomLevel((prev) => Math.min(2.5, Math.max(0.4, prev * zoomFactor)));
-  };
+  useEffect(() => {
+    const handleWheelNative = (e: WheelEvent) => {
+      e.preventDefault();
+      const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
+      setZoomLevel((prev) => Math.min(2.5, Math.max(0.2, prev * zoomFactor)));
+    };
+
+    const container = containerRef.current;
+    const fullscreenContainer = fullscreenContainerRef.current;
+
+    if (container) container.addEventListener('wheel', handleWheelNative, { passive: false });
+    if (fullscreenContainer) fullscreenContainer.addEventListener('wheel', handleWheelNative, { passive: false });
+
+    return () => {
+      if (container) container.removeEventListener('wheel', handleWheelNative);
+      if (fullscreenContainer) fullscreenContainer.removeEventListener('wheel', handleWheelNative);
+    };
+  }, [mindMapData, layoutResult, isFullscreen]);
 
   const toggleCollapse = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -547,8 +592,7 @@ export const MindMapGeneratorPage: React.FC = () => {
           setMindMapData(parsed);
           setSelectedNode(parsed);
           setCollapsedNodes({});
-          setPanOffset({ x: 0, y: 0 });
-          setZoomLevel(1);
+          setNeedsRecenter(true);
         } else {
           alert('Invalid mind map JSON file.');
         }
@@ -768,7 +812,7 @@ export const MindMapGeneratorPage: React.FC = () => {
         {/* ============================================================ */}
         <div className="lg:col-span-8 space-y-4">
           {/* Canvas Control Header Bar */}
-          <div className="bg-white border border-[#DFE4F2] rounded-2xl p-3 flex flex-wrap items-center justify-between gap-2 shadow-sm">
+          <div className="bg-white border border-[#DFE4F2] rounded-2xl p-3 flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center justify-between gap-3 shadow-sm">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
                 <Network className="w-4 h-4 text-[#10B981]" />
@@ -785,7 +829,7 @@ export const MindMapGeneratorPage: React.FC = () => {
                   <div className="flex items-center bg-slate-100 rounded-lg p-0.5 border border-slate-200">
                     <button
                       type="button"
-                      onClick={() => setLayoutMode('horizontal')}
+                      onClick={() => { setLayoutMode('horizontal'); setNeedsRecenter(true); }}
                       className={`px-2 py-1 rounded-md text-[11px] font-semibold transition-all cursor-pointer ${
                         layoutMode === 'horizontal'
                           ? 'bg-white text-emerald-600 shadow-xs'
@@ -797,7 +841,7 @@ export const MindMapGeneratorPage: React.FC = () => {
                     </button>
                     <button
                       type="button"
-                      onClick={() => setLayoutMode('radial')}
+                      onClick={() => { setLayoutMode('radial'); setNeedsRecenter(true); }}
                       className={`px-2 py-1 rounded-md text-[11px] font-semibold transition-all cursor-pointer ${
                         layoutMode === 'radial'
                           ? 'bg-white text-emerald-600 shadow-xs'
@@ -814,16 +858,16 @@ export const MindMapGeneratorPage: React.FC = () => {
 
             {/* Canvas Actions & Exports */}
             {mindMapData && (
-              <div className="flex items-center gap-1.5 flex-wrap">
+              <div className="flex items-center gap-1.5 flex-wrap w-full sm:w-auto">
                 {/* Search Bar in Canvas */}
-                <div className="relative">
+                <div className="relative flex-1 sm:flex-none">
                   <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search topics..."
-                    className="pl-8 pr-3 py-1 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-emerald-500 w-32 sm:w-40"
+                    className="pl-8 pr-3 py-1 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-emerald-500 w-full sm:w-40"
                   />
                   {searchQuery && (
                     <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] font-mono text-emerald-600 font-bold">
@@ -957,8 +1001,7 @@ export const MindMapGeneratorPage: React.FC = () => {
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
-              onWheel={handleWheel}
-              className={`relative w-full h-[620px] rounded-3xl border overflow-hidden select-none shadow-xl transition-all cursor-${
+              className={`relative w-full h-[400px] sm:h-[500px] lg:h-[620px] rounded-3xl border overflow-hidden select-none shadow-xl transition-all cursor-${
                 isPanning ? 'grabbing' : 'grab'
               }`}
               style={{
@@ -970,7 +1013,7 @@ export const MindMapGeneratorPage: React.FC = () => {
               <div className="absolute top-4 left-4 z-20 flex items-center gap-1.5 bg-black/40 backdrop-blur-md p-1.5 rounded-xl border border-white/10 shadow-lg">
                 <button
                   type="button"
-                  onClick={() => setZoomLevel((prev) => Math.max(0.4, prev - 0.15))}
+                  onClick={() => setZoomLevel((prev) => Math.max(0.2, prev - 0.15))}
                   className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white cursor-pointer transition-colors"
                   title="Zoom Out"
                 >
@@ -1286,22 +1329,22 @@ export const MindMapGeneratorPage: React.FC = () => {
       {isFullscreen && mindMapData && layoutResult && (
         <div className="fixed inset-0 z-[99999] bg-[#07090E] flex flex-col justify-between select-none overflow-hidden animate-in fade-in duration-150">
           {/* Top Fullscreen HUD */}
-          <div className="w-full px-6 py-3 bg-black/60 backdrop-blur-md border-b border-white/10 flex items-center justify-between z-20 shrink-0">
-            <div className="flex items-center gap-3">
-              <span className="font-mono text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-950/80 text-emerald-400 border border-emerald-700/60">
+          <div className="w-full px-3 py-2 sm:px-6 sm:py-3 bg-black/60 backdrop-blur-md border-b border-white/10 flex flex-wrap items-center justify-between gap-2 z-20 shrink-0">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <span className="font-mono text-[10px] sm:text-xs font-bold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-emerald-950/80 text-emerald-400 border border-emerald-700/60">
                 {totalNodesCount} Nodes
               </span>
-              <span className="text-sm font-bold text-white truncate max-w-md">
+              <span className="text-xs sm:text-sm font-bold text-white truncate max-w-[150px] sm:max-w-md">
                 {mindMapData.title}
               </span>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               {/* Layout Switcher */}
               <div className="flex items-center bg-white/10 rounded-lg p-0.5 border border-white/15">
                 <button
                   type="button"
-                  onClick={() => setLayoutMode('horizontal')}
+                  onClick={() => { setLayoutMode('horizontal'); setNeedsRecenter(true); }}
                   className={`px-2.5 py-1 rounded-md text-xs font-semibold cursor-pointer ${
                     layoutMode === 'horizontal' ? 'bg-emerald-600 text-white' : 'text-white/70 hover:text-white'
                   }`}
@@ -1310,7 +1353,7 @@ export const MindMapGeneratorPage: React.FC = () => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setLayoutMode('radial')}
+                  onClick={() => { setLayoutMode('radial'); setNeedsRecenter(true); }}
                   className={`px-2.5 py-1 rounded-md text-xs font-semibold cursor-pointer ${
                     layoutMode === 'radial' ? 'bg-emerald-600 text-white' : 'text-white/70 hover:text-white'
                   }`}
@@ -1359,10 +1402,10 @@ export const MindMapGeneratorPage: React.FC = () => {
 
           {/* Fullscreen Canvas Body */}
           <div
+            ref={fullscreenContainerRef}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
-            onWheel={handleWheel}
             className="flex-1 w-full h-full relative cursor-grab active:cursor-grabbing overflow-hidden"
             style={{ backgroundColor: themeConfig.bg }}
           >
@@ -1370,7 +1413,7 @@ export const MindMapGeneratorPage: React.FC = () => {
             <div className="absolute top-4 left-6 z-20 flex items-center gap-1.5 bg-black/50 backdrop-blur-md p-1.5 rounded-xl border border-white/10">
               <button
                 type="button"
-                onClick={() => setZoomLevel((prev) => Math.max(0.4, prev - 0.15))}
+                onClick={() => setZoomLevel((prev) => Math.max(0.2, prev - 0.15))}
                 className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white cursor-pointer"
               >
                 <ZoomOut className="w-4 h-4" />
@@ -1472,7 +1515,7 @@ export const MindMapGeneratorPage: React.FC = () => {
 
             {/* Floating Deep-Dive Inspector in Fullscreen */}
             {selectedNode && (
-              <div className="absolute bottom-6 right-6 max-w-sm w-full bg-slate-950/95 backdrop-blur-xl border border-emerald-500/40 rounded-2xl p-4 shadow-2xl text-left space-y-2 z-30 animate-in slide-in-from-bottom-2">
+              <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:right-6 sm:left-auto max-w-none sm:max-w-sm w-auto sm:w-full bg-slate-950/95 backdrop-blur-xl border border-emerald-500/40 rounded-2xl p-4 shadow-2xl text-left space-y-2 z-30 animate-in slide-in-from-bottom-2">
                 <div className="flex items-center justify-between pb-1 border-b border-slate-800">
                   <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">
                     {selectedNode.id === mindMapData.id ? 'Root Hub' : 'Branch Concept'}
