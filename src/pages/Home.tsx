@@ -487,7 +487,7 @@ export const Home: React.FC = () => {
             </div>
 
             {/* Right Hero Visual: Playful 3D Tactile Educational Character & Floating Elements */}
-            <div className="lg:col-span-6 relative lg:scale-105 lg:origin-right mt-10 lg:mt-0">
+            <div className="lg:col-span-6 relative lg:scale-105 lg:origin-right mt-8 lg:mt-0 lg:-translate-y-4">
               <div className="relative rounded-[2.5rem] overflow-hidden border-2 border-[#DFE4F2] bg-white shadow-2xl group">
                 <img
                   src={heroVisualImg}
