@@ -513,7 +513,7 @@ export const Home: React.FC = () => {
       </section>
 
       {/* 2. TOOL SHOWCASE SECTION */}
-      <section id="tools" className="py-24 relative overflow-hidden bg-gradient-to-b from-[#F7F8FA] to-white dark:from-slate-950 dark:to-slate-900 border-t border-[#DFE4F2] dark:border-slate-800">
+      <section id="tools" className="py-24 relative overflow-hidden bg-gradient-to-b from-[#F7F8FA] to-white border-t border-[#DFE4F2]">
         {/* Dynamic Background Elements */}
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-b from-[#7C3AED]/5 to-transparent rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/3" />
         <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-gradient-to-t from-[#2563EB]/5 to-transparent rounded-full blur-3xl pointer-events-none translate-y-1/3 -translate-x-1/4" />
@@ -521,15 +521,15 @@ export const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
           <div className="text-left space-y-4 mb-16 max-w-3xl">
-            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#7C3AED] dark:text-purple-400 bg-[#7C3AED]/10 dark:bg-purple-500/10 px-4 py-1.5 rounded-full ring-1 ring-[#7C3AED]/20">
+            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#7C3AED] bg-[#7C3AED]/10 px-4 py-1.5 rounded-full ring-1 ring-[#7C3AED]/20">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Catalog & Workspaces</span>
             </div>
             {/* User requested Title */}
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#080909] dark:text-white tracking-tight font-display text-balance leading-[1.1]">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#080909] tracking-tight font-display text-balance leading-[1.1]">
               10 tools. <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] to-[#EC4899]">One creative</span> learning workspace.
             </h2>
-            <p className="text-lg text-[#080909]/70 dark:text-slate-400 font-body leading-relaxed max-w-2xl">
+            <p className="text-lg text-[#080909]/70 font-body leading-relaxed max-w-2xl">
               Every tool is a fully functional workspace designed for maximum retention, academic rigor, and effortless execution. Powered by Gemini AI.
             </p>
           </div>
@@ -544,12 +544,12 @@ export const Home: React.FC = () => {
                 <Link
                   key={tool.number}
                   to={tool.route}
-                  className={`group relative overflow-hidden bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl border border-white/40 dark:border-slate-800 p-6 sm:p-7 flex flex-col justify-between transition-all duration-500 hover:-translate-y-1 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] cursor-pointer text-left ${
+                  className={`group relative overflow-hidden bg-white/80  backdrop-blur-xl rounded-3xl border border-white/40  p-6 sm:p-7 flex flex-col justify-between transition-all duration-500 hover:-translate-y-1 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] cursor-pointer text-left ${
                     isWide ? 'lg:col-span-2' : 'lg:col-span-1'
                   }`}
                 >
                   {/* Glassmorphic Gradient Glow on Hover */}
-                  <div className="absolute -inset-px bg-gradient-to-br from-transparent to-transparent group-hover:from-white/50 group-hover:to-white/10 dark:group-hover:from-white/5 dark:group-hover:to-transparent z-0 transition-all duration-500 pointer-events-none rounded-3xl" />
+                  <div className="absolute -inset-px bg-gradient-to-br from-transparent to-transparent group-hover:from-white/50 group-hover:to-white/10 z-0 transition-all duration-500 pointer-events-none rounded-3xl" />
                   <div className="absolute -inset-4 bg-gradient-to-tr opacity-0 group-hover:opacity-10 transition-opacity duration-500 blur-2xl pointer-events-none z-0" style={{ backgroundImage: `linear-gradient(to top right, ${tool.accent}, transparent)` }} />
                   
                   <div className="space-y-5 relative z-10">
@@ -593,11 +593,11 @@ export const Home: React.FC = () => {
                   </div>
 
                   {/* Bottom Action CTA */}
-                  <div className="pt-6 mt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between relative z-10">
-                    <span className="text-xs font-bold text-[#080909] dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors flex items-center gap-1.5 font-display">
+                  <div className="pt-6 mt-6 border-t border-slate-200 flex items-center justify-between relative z-10">
+                    <span className="text-xs font-bold text-[#080909] group-hover:text-indigo-600 transition-colors flex items-center gap-1.5 font-display">
                       <span>{tool.cta}</span>
                     </span>
-                    <span className="w-8 h-8 rounded-full bg-[#080909] dark:bg-white text-white dark:text-slate-900 flex items-center justify-center group-hover:bg-indigo-600 dark:group-hover:bg-indigo-500 group-hover:scale-110 group-hover:rotate-[-45deg] transition-all shadow-md">
+                    <span className="w-8 h-8 rounded-full bg-[#080909] text-white flex items-center justify-center group-hover:bg-indigo-600 group-hover:scale-110 group-hover:rotate-[-45deg] transition-all shadow-md">
                       <ArrowRight className="w-4 h-4" />
                     </span>
                   </div>

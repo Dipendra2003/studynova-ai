@@ -59,7 +59,7 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({
       </div>
 
       {/* Realistic A4 Workspace Frame */}
-      <div className="w-full bg-[#D1D5DB] dark:bg-slate-900/90 p-3 sm:p-8 rounded-3xl flex flex-col items-center justify-center overflow-x-auto shadow-inner min-h-[500px]">
+      <div className="w-full bg-[#D1D5DB] p-3 sm:p-8 rounded-3xl flex flex-col items-center justify-center overflow-x-auto shadow-inner min-h-[500px]">
         {/* Printable Container Wrapping All A4 Sheets */}
         <div id="printable-resume" className="w-full max-w-[760px] flex flex-col items-center gap-8 sm:gap-10">
           {pages.map((pageData) => (

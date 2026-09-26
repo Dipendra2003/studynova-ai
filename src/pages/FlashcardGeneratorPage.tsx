@@ -128,35 +128,35 @@ export const FlashcardGeneratorPage: React.FC = () => {
 
           <form onSubmit={handleGenerate} className="space-y-4 text-xs">
             <div>
-              <label className="text-slate-800 dark:text-slate-200 font-semibold block mb-1">Topic or Chapter *</label>
+              <label className="text-slate-800 font-semibold block mb-1">Topic or Chapter *</label>
               <input
                 type="text"
                 required
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-indigo-500"
+                className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-indigo-500"
                 placeholder="e.g. JavaScript Closures, Cell Biology..."
               />
             </div>
 
             <div>
-              <label className="text-slate-600 dark:text-slate-400 block mb-1">Study Text (Optional)</label>
+              <label className="text-slate-600 block mb-1">Study Text (Optional)</label>
               <textarea
                 rows={4}
                 value={material}
                 onChange={(e) => setMaterial(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2.5 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-indigo-500 font-mono text-[11px]"
+                className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-indigo-500 font-mono text-[11px]"
                 placeholder="Paste key definitions or paragraphs to synthesize into cards..."
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-slate-600 dark:text-slate-400 block mb-1">Deck Size</label>
+                <label className="text-slate-600 block mb-1">Deck Size</label>
                 <select
                   value={count}
                   onChange={(e) => setCount(Number(e.target.value))}
-                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-900 dark:text-slate-200"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 text-slate-900"
                 >
                   <option value={4}>4 Cards</option>
                   <option value={6}>6 Cards</option>
@@ -165,11 +165,11 @@ export const FlashcardGeneratorPage: React.FC = () => {
                 </select>
               </div>
               <div>
-                <label className="text-slate-600 dark:text-slate-400 block mb-1">Difficulty</label>
+                <label className="text-slate-600 block mb-1">Difficulty</label>
                 <select
                   value={difficulty}
                   onChange={(e) => setDifficulty(e.target.value)}
-                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-900 dark:text-slate-200"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 text-slate-900"
                 >
                   <option value="Beginner">Beginner</option>
                   <option value="Intermediate">Intermediate</option>
@@ -191,8 +191,8 @@ export const FlashcardGeneratorPage: React.FC = () => {
 
         {/* Right 3D Player Arena (8 cols) */}
         <div className="lg:col-span-8 space-y-4">
-          <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex flex-wrap items-center justify-between gap-3 shadow-sm transition-colors">
-            <span className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+          <div className="bg-white border border-slate-200 rounded-xl p-3 flex flex-wrap items-center justify-between gap-3 shadow-sm transition-colors">
+            <span className="text-xs font-bold text-slate-900 uppercase tracking-wider">
               3D Interactive Deck Player
             </span>
 
@@ -200,20 +200,20 @@ export const FlashcardGeneratorPage: React.FC = () => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleShuffle}
-                  className="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded text-xs flex items-center gap-1 transition-colors cursor-pointer"
+                  className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 rounded text-xs flex items-center gap-1 transition-colors cursor-pointer"
                 >
                   <Shuffle className="w-3.5 h-3.5" /> Shuffle
                 </button>
                 <button
                   onClick={handleCopy}
-                  className="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded text-xs flex items-center gap-1 transition-colors cursor-pointer"
+                  className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 rounded text-xs flex items-center gap-1 transition-colors cursor-pointer"
                 >
-                  {copied ? <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                  {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
                   <span>{copied ? 'Copied' : 'Copy'}</span>
                 </button>
                 <button
                   onClick={handleDownloadJson}
-                  className="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded text-xs flex items-center gap-1 transition-colors cursor-pointer"
+                  className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 rounded text-xs flex items-center gap-1 transition-colors cursor-pointer"
                 >
                   <Download className="w-3.5 h-3.5" /> JSON
                 </button>
@@ -226,18 +226,18 @@ export const FlashcardGeneratorPage: React.FC = () => {
           ) : error ? (
             <ErrorState message={error} onRetry={() => handleGenerate()} />
           ) : cards && cards.length > 0 ? (
-            <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6 shadow-xl text-center transition-colors">
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 space-y-6 shadow-xl text-center transition-colors">
               {/* Deck Counter & Mastery */}
-              <div className="flex justify-between items-center text-xs font-mono text-slate-500 dark:text-slate-400">
-                <span className="text-indigo-600 dark:text-indigo-400 font-bold">
+              <div className="flex justify-between items-center text-xs font-mono text-slate-500">
+                <span className="text-indigo-600 font-bold">
                   Card {currentIndex + 1} of {cards.length}
                 </span>
                 <button
                   onClick={() => toggleMastered(cards[currentIndex].id)}
                   className={`px-3 py-1 rounded-lg border text-xs flex items-center gap-1.5 transition-colors cursor-pointer ${
                     masteredIds[cards[currentIndex].id]
-                      ? 'bg-emerald-50 dark:bg-emerald-950 border-emerald-500 text-emerald-800 dark:text-emerald-300'
-                      : 'bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                      ? 'bg-emerald-50  border-emerald-500 text-emerald-800 '
+                      : 'bg-slate-50  border-slate-200  text-slate-600  hover:text-slate-900 '
                   }`}
                 >
                   <CheckCircle2 className="w-3.5 h-3.5" />
@@ -254,27 +254,27 @@ export const FlashcardGeneratorPage: React.FC = () => {
                   }`}
                 >
                   {/* Front Side */}
-                  <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-indigo-50/80 via-white to-indigo-100/60 dark:from-slate-900 dark:via-slate-950 dark:to-indigo-950/80 border-2 border-indigo-300 dark:border-indigo-500/40 rounded-2xl p-6 sm:p-8 flex flex-col justify-between text-center">
-                    <div className="flex justify-between items-center text-[11px] font-mono text-indigo-700 dark:text-indigo-400 uppercase tracking-wider">
+                  <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-indigo-50/80 via-white to-indigo-100/60 border-2 border-indigo-300 rounded-2xl p-6 sm:p-8 flex flex-col justify-between text-center">
+                    <div className="flex justify-between items-center text-[11px] font-mono text-indigo-700 uppercase tracking-wider">
                       <span>Front · Question</span>
                       <span>Tap to Reveal</span>
                     </div>
-                    <p className="text-base sm:text-xl font-bold text-slate-900 dark:text-white my-auto px-4 leading-relaxed">
+                    <p className="text-base sm:text-xl font-bold text-slate-900 my-auto px-4 leading-relaxed">
                       {cards[currentIndex].question}
                     </p>
-                    <span className="text-xs text-slate-500 dark:text-slate-400">Click or tap anywhere to flip card</span>
+                    <span className="text-xs text-slate-500">Click or tap anywhere to flip card</span>
                   </div>
 
                   {/* Back Side */}
-                  <div className="absolute inset-0 backface-hidden rotate-y-180 bg-gradient-to-br from-emerald-50/80 via-white to-emerald-100/60 dark:from-indigo-950 dark:via-slate-950 dark:to-slate-900 border-2 border-emerald-300 dark:border-emerald-500/40 rounded-2xl p-6 sm:p-8 flex flex-col justify-between text-center">
-                    <div className="flex justify-between items-center text-[11px] font-mono text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">
+                  <div className="absolute inset-0 backface-hidden rotate-y-180 bg-gradient-to-br from-emerald-50/80 via-white to-emerald-100/60 border-2 border-emerald-300 rounded-2xl p-6 sm:p-8 flex flex-col justify-between text-center">
+                    <div className="flex justify-between items-center text-[11px] font-mono text-emerald-700 uppercase tracking-wider">
                       <span>Back · Answer</span>
                       <span>Tap to Flip Back</span>
                     </div>
-                    <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 my-auto px-4 leading-relaxed font-medium">
+                    <p className="text-xs sm:text-sm text-slate-800 my-auto px-4 leading-relaxed font-medium">
                       {cards[currentIndex].answer}
                     </p>
-                    <span className="text-xs text-slate-500 dark:text-slate-400">Click card again to view question</span>
+                    <span className="text-xs text-slate-500">Click card again to view question</span>
                   </div>
                 </div>
               </div>
@@ -283,7 +283,7 @@ export const FlashcardGeneratorPage: React.FC = () => {
               <div className="flex justify-center items-center gap-4 pt-2">
                 <button
                   onClick={handlePrev}
-                  className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-white border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
                 >
                   <ChevronLeft className="w-4 h-4" /> Previous
                 </button>
@@ -295,7 +295,7 @@ export const FlashcardGeneratorPage: React.FC = () => {
                 </button>
                 <button
                   onClick={handleNext}
-                  className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-white border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
                 >
                   Next <ChevronRight className="w-4 h-4" />
                 </button>

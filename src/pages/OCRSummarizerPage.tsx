@@ -166,21 +166,21 @@ ${summaryData.quickRevision}
             />
             <div
               onClick={() => fileInputRef.current?.click()}
-              className="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-indigo-500 dark:hover:border-indigo-500 rounded-2xl p-6 text-center space-y-3 cursor-pointer bg-slate-50 dark:bg-slate-950/60 hover:bg-slate-100 dark:hover:bg-slate-950 transition-colors"
+              className="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-2xl p-6 text-center space-y-3 cursor-pointer bg-slate-50 hover:bg-slate-100 transition-colors"
             >
-              <div className="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950 border border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mx-auto">
+              <div className="w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-600 flex items-center justify-center mx-auto">
                 <Upload className="w-6 h-6" />
               </div>
               <div>
-                <p className="text-xs font-semibold text-slate-900 dark:text-white">Click or drag note photo here</p>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">Supports JPG, PNG, or WebP</p>
+                <p className="text-xs font-semibold text-slate-900">Click or drag note photo here</p>
+                <p className="text-[11px] text-slate-500">Supports JPG, PNG, or WebP</p>
               </div>
             </div>
           </div>
 
           {/* Image Thumbnail Preview */}
           {imagePreview && (
-            <div className="relative rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 h-48 sm:h-64 bg-slate-100 dark:bg-slate-950 flex items-center justify-center p-2">
+            <div className="relative rounded-xl overflow-hidden border border-slate-200 h-48 sm:h-64 bg-slate-100 flex items-center justify-center p-2">
               <img
                 src={imagePreview}
                 alt="Uploaded note preview"
@@ -202,16 +202,16 @@ ${summaryData.quickRevision}
           {/* Extracted Text Verified Editor */}
           <div className="space-y-1.5 text-xs">
             <div className="flex justify-between items-center">
-              <label className="text-slate-800 dark:text-slate-300 font-semibold block">
+              <label className="text-slate-800 font-semibold block">
                 Extracted Text (Verify / Correct Mistakes)
               </label>
-              <span className="text-[10px] font-mono text-indigo-600 dark:text-indigo-400">Editable</span>
+              <span className="text-[10px] font-mono text-indigo-600">Editable</span>
             </div>
             <textarea
               rows={8}
               value={extractedText}
               onChange={(e) => setExtractedText(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl p-3 text-slate-900 dark:text-slate-200 font-mono text-[11px] focus:outline-none focus:border-indigo-500 leading-relaxed"
+              className="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-slate-900 font-mono text-[11px] focus:outline-none focus:border-indigo-500 leading-relaxed"
               placeholder="Extracted text will appear here. You can manually correct any OCR recognition errors..."
             />
           </div>
@@ -228,8 +228,8 @@ ${summaryData.quickRevision}
 
         {/* Right Column: AI Structured Summary (7 cols) */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex flex-wrap items-center justify-between gap-3 shadow-sm transition-colors">
-            <span className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+          <div className="bg-white border border-slate-200 rounded-xl p-3 flex flex-wrap items-center justify-between gap-3 shadow-sm transition-colors">
+            <span className="text-xs font-bold text-slate-900 uppercase tracking-wider">
               Side-by-Side AI Summary
             </span>
 
@@ -237,14 +237,14 @@ ${summaryData.quickRevision}
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleCopy}
-                  className="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded text-xs flex items-center gap-1 transition-colors cursor-pointer"
+                  className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 rounded text-xs flex items-center gap-1 transition-colors cursor-pointer"
                 >
-                  {copied ? <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                  {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
                   <span>{copied ? 'Copied' : 'Copy'}</span>
                 </button>
                 <button
                   onClick={handleDownloadTxt}
-                  className="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded text-xs flex items-center gap-1 transition-colors cursor-pointer"
+                  className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 rounded text-xs flex items-center gap-1 transition-colors cursor-pointer"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>Download TXT</span>
@@ -258,23 +258,23 @@ ${summaryData.quickRevision}
           ) : error ? (
             <ErrorState message={error} onRetry={handleSummarize} />
           ) : summaryData ? (
-            <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 text-left space-y-6 shadow-xl transition-colors">
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 text-left space-y-6 shadow-xl transition-colors">
               {/* Executive Summary */}
-              <div className="space-y-1.5 border-b border-slate-200 dark:border-slate-800 pb-4">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+              <div className="space-y-1.5 border-b border-slate-200 pb-4">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-600">
                   Short Executive Summary
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 leading-relaxed bg-slate-50 dark:bg-slate-950 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800">
+                <p className="text-xs sm:text-sm text-slate-700 leading-relaxed bg-slate-50 p-3.5 rounded-xl border border-slate-200">
                   {summaryData.shortSummary}
                 </p>
               </div>
 
               {/* Key Takeaways */}
               <div className="space-y-2">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-600">
                   Key Points
                 </h3>
-                <ul className="list-disc pl-4 space-y-1 text-xs text-slate-700 dark:text-slate-300">
+                <ul className="list-disc pl-4 space-y-1 text-xs text-slate-700">
                   {summaryData.keyPoints.map((pt, idx) => (
                     <li key={idx} className="leading-relaxed">{pt}</li>
                   ))}
@@ -284,14 +284,14 @@ ${summaryData.quickRevision}
               {/* Definitions */}
               {summaryData.importantDefinitions.length > 0 && (
                 <div className="space-y-2">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-600">
                     Important Definitions
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                     {summaryData.importantDefinitions.map((d, idx) => (
-                      <div key={idx} className="p-3 bg-slate-50 dark:bg-slate-950 rounded-lg border border-slate-200 dark:border-slate-800 space-y-1">
-                        <span className="font-bold text-emerald-700 dark:text-emerald-300">{d.term}</span>
-                        <p className="text-slate-600 dark:text-slate-300 text-[11px] leading-relaxed">{d.definition}</p>
+                      <div key={idx} className="p-3 bg-slate-50 rounded-lg border border-slate-200 space-y-1">
+                        <span className="font-bold text-emerald-700">{d.term}</span>
+                        <p className="text-slate-600 text-[11px] leading-relaxed">{d.definition}</p>
                       </div>
                     ))}
                   </div>
@@ -301,14 +301,14 @@ ${summaryData.quickRevision}
               {/* Formulas */}
               {summaryData.importantFormulas.length > 0 && (
                 <div className="space-y-2">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-600">
                     Important Formulas & Equations
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {summaryData.importantFormulas.map((f, idx) => (
                       <div
                         key={idx}
-                        className="px-3 py-1.5 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 rounded-lg font-mono text-xs text-indigo-900 dark:text-indigo-200 font-bold"
+                        className="px-3 py-1.5 bg-indigo-50 border border-indigo-200 rounded-lg font-mono text-xs text-indigo-900 font-bold"
                       >
                         {f}
                       </div>
@@ -319,21 +319,21 @@ ${summaryData.quickRevision}
 
               {/* Exam Points & Quick Revision */}
               <div className="space-y-2">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-amber-600">
                   High-Yield Exam Points
                 </h3>
-                <ul className="list-disc pl-4 space-y-1 text-xs text-slate-700 dark:text-slate-300">
+                <ul className="list-disc pl-4 space-y-1 text-xs text-slate-700">
                   {summaryData.examPoints.map((ep, idx) => (
                     <li key={idx} className="leading-relaxed">{ep}</li>
                   ))}
                 </ul>
               </div>
 
-              <div className="pt-2 border-t border-slate-200 dark:border-slate-800">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block mb-1">
+              <div className="pt-2 border-t border-slate-200">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-500 block mb-1">
                   Quick Revision
                 </span>
-                <p className="text-xs text-slate-700 dark:text-slate-300 italic bg-slate-50 dark:bg-slate-950 p-3 rounded-lg border border-slate-200 dark:border-slate-800">
+                <p className="text-xs text-slate-700 italic bg-slate-50 p-3 rounded-lg border border-slate-200">
                   "{summaryData.quickRevision}"
                 </p>
               </div>

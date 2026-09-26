@@ -301,10 +301,10 @@ export const QuizGeneratorPage: React.FC = () => {
   }, [quizData, score]);
 
   const masteryTier = useMemo(() => {
-    if (percentage >= 90) return { title: 'Mastery Achieved', color: 'text-emerald-600 dark:text-emerald-400', badge: 'bg-emerald-50 dark:bg-emerald-950/80 border-emerald-300' };
-    if (percentage >= 70) return { title: 'Proficient & Solid', color: 'text-indigo-600 dark:text-indigo-400', badge: 'bg-indigo-50 dark:bg-indigo-950/80 border-indigo-300' };
-    if (percentage >= 50) return { title: 'Developing with Gaps', color: 'text-amber-600 dark:text-amber-400', badge: 'bg-amber-50 dark:bg-amber-950/80 border-amber-300' };
-    return { title: 'Needs Intensive Review', color: 'text-rose-600 dark:text-rose-400', badge: 'bg-rose-50 dark:bg-rose-950/80 border-rose-300' };
+    if (percentage >= 90) return { title: 'Mastery Achieved', color: 'text-emerald-600 ', badge: 'bg-emerald-50  border-emerald-300' };
+    if (percentage >= 70) return { title: 'Proficient & Solid', color: 'text-indigo-600 ', badge: 'bg-indigo-50  border-indigo-300' };
+    if (percentage >= 50) return { title: 'Developing with Gaps', color: 'text-amber-600 ', badge: 'bg-amber-50  border-amber-300' };
+    return { title: 'Needs Intensive Review', color: 'text-rose-600 ', badge: 'bg-rose-50  border-rose-300' };
   }, [percentage]);
 
   // Review List Filtered
@@ -411,9 +411,9 @@ export const QuizGeneratorPage: React.FC = () => {
 
       {/* Toast Alert */}
       {toastMessage && (
-        <div className="mb-6 p-3 bg-indigo-50 dark:bg-indigo-950/80 border border-indigo-200 dark:border-indigo-800 text-indigo-900 dark:text-indigo-200 rounded-xl text-xs flex items-center justify-between shadow-sm animate-in fade-in">
+        <div className="mb-6 p-3 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded-xl text-xs flex items-center justify-between shadow-sm animate-in fade-in">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
             <span className="font-medium">{toastMessage}</span>
           </div>
           <button type="button" onClick={() => setToastMessage(null)} className="text-slate-400 hover:text-slate-600 cursor-pointer">

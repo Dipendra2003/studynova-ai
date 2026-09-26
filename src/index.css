@@ -2,6 +2,7 @@
 
 @layer base {
   :root {
+    color-scheme: light !important;
     --bg-page: #F0EEFA;
     --text-primary: #080909;
     --lavender-soft: #DFE4F2;
