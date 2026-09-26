@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 import {
   Send,
   Plus,
@@ -23,20 +23,20 @@ import {
   CheckCircle2,
   MessageSquare,
   Clock,
-  ExternalLink
-} from 'lucide-react';
-import { solveDoubtAI } from '../services/aiService';
-import { ChatMessage } from '../types';
+  ExternalLink,
+} from "lucide-react";
+import { solveDoubtAI } from "../services/aiService";
+import { ChatMessage } from "../types";
 import {
   CHATBOT_STARTERS,
   QUICK_FOLLOW_UPS,
   DoubtChatSession,
   exportDoubtChatToMarkdown,
-  generatePrintableDoubtHtml
-} from '../utils/doubtSolverHelpers';
+  generatePrintableDoubtHtml,
+} from "../utils/doubtSolverHelpers";
 
-const SESSIONS_STORAGE_KEY = 'cognitivecraft_doubt_sessions';
-const ACTIVE_SESSION_ID_KEY = 'cognitivecraft_active_doubt_session';
+const SESSIONS_STORAGE_KEY = "cognitivecraft_doubt_sessions";
+const ACTIVE_SESSION_ID_KEY = "cognitivecraft_active_doubt_session";
 
 /**
  * Lightweight, elegant Markdown renderer for AI Chatbot messages
@@ -58,11 +58,11 @@ const ChatMarkdownRenderer: React.FC<{
       parts.push(
         <div key={`text-${lastIndex}`} className="space-y-2">
           {renderFormattedText(textBefore, onCopyCode, copiedCode)}
-        </div>
+        </div>,
       );
     }
 
-    const lang = match[1] || 'code';
+    const lang = match[1] || "code";
     const code = match[2];
     const isCopied = copiedCode === code;
 
@@ -86,13 +86,13 @@ const ChatMarkdownRenderer: React.FC<{
             ) : (
               <Copy className="w-3 h-3" />
             )}
-            <span>{isCopied ? 'Copied' : 'Copy'}</span>
+            <span>{isCopied ? "Copied" : "Copy"}</span>
           </button>
         </div>
         <pre className="p-3.5 text-xs font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap text-emerald-300 break-words max-w-full">
           <code>{code}</code>
         </pre>
-      </div>
+      </div>,
     );
 
     lastIndex = match.index + match[0].length;
@@ -103,7 +103,7 @@ const ChatMarkdownRenderer: React.FC<{
     parts.push(
       <div key={`text-${lastIndex}`} className="space-y-2">
         {renderFormattedText(remainingText, onCopyCode, copiedCode)}
-      </div>
+      </div>,
     );
   }
 
@@ -117,9 +117,9 @@ const ChatMarkdownRenderer: React.FC<{
 function renderFormattedText(
   rawText: string,
   onCopyContent?: (text: string) => void,
-  copiedContentId?: string | null
+  copiedContentId?: string | null,
 ): React.ReactNode[] {
-  const lines = rawText.split('\n');
+  const lines = rawText.split("\n");
   const elements: React.ReactNode[] = [];
   let i = 0;
   let keyCounter = 0;
@@ -136,54 +136,71 @@ function renderFormattedText(
 
     // Horizontal rule
     if (/^[-*_]{3,}$/.test(trimmed)) {
-      elements.push(<hr key={`hr-${keyCounter++}`} className="border-t border-slate-200 my-3" />);
+      elements.push(
+        <hr
+          key={`hr-${keyCounter++}`}
+          className="border-t border-slate-200 my-3"
+        />,
+      );
       i++;
       continue;
     }
 
     // Headings
-    if (trimmed.startsWith('#### ')) {
+    if (trimmed.startsWith("#### ")) {
       elements.push(
-        <h5 key={`h5-${keyCounter++}`} className="text-xs font-bold text-slate-900 mt-2.5 mb-1">
-          {formatInline(trimmed.replace(/^####\s+/, ''))}
-        </h5>
+        <h5
+          key={`h5-${keyCounter++}`}
+          className="text-xs font-bold text-slate-900 mt-2.5 mb-1"
+        >
+          {formatInline(trimmed.replace(/^####\s+/, ""))}
+        </h5>,
       );
       i++;
       continue;
     }
-    if (trimmed.startsWith('### ')) {
+    if (trimmed.startsWith("### ")) {
       elements.push(
-        <h4 key={`h4-${keyCounter++}`} className="text-sm font-bold text-slate-900 mt-3 mb-1">
-          {formatInline(trimmed.replace(/^###\s+/, ''))}
-        </h4>
+        <h4
+          key={`h4-${keyCounter++}`}
+          className="text-sm font-bold text-slate-900 mt-3 mb-1"
+        >
+          {formatInline(trimmed.replace(/^###\s+/, ""))}
+        </h4>,
       );
       i++;
       continue;
     }
-    if (trimmed.startsWith('## ')) {
+    if (trimmed.startsWith("## ")) {
       elements.push(
-        <h3 key={`h3-${keyCounter++}`} className="text-base font-bold text-slate-900 mt-3 mb-1">
-          {formatInline(trimmed.replace(/^##\s+/, ''))}
-        </h3>
+        <h3
+          key={`h3-${keyCounter++}`}
+          className="text-base font-bold text-slate-900 mt-3 mb-1"
+        >
+          {formatInline(trimmed.replace(/^##\s+/, ""))}
+        </h3>,
       );
       i++;
       continue;
     }
-    if (trimmed.startsWith('# ')) {
+    if (trimmed.startsWith("# ")) {
       elements.push(
-        <h2 key={`h2-${keyCounter++}`} className="text-lg font-bold text-slate-900 mt-4 mb-2">
-          {formatInline(trimmed.replace(/^#\s+/, ''))}
-        </h2>
+        <h2
+          key={`h2-${keyCounter++}`}
+          className="text-lg font-bold text-slate-900 mt-4 mb-2"
+        >
+          {formatInline(trimmed.replace(/^#\s+/, ""))}
+        </h2>,
       );
       i++;
       continue;
     }
 
     // Blockquote
-    if (trimmed.startsWith('> ')) {
+    if (trimmed.startsWith("> ")) {
       const quoteLines: string[] = [];
-      while (i < lines.length && lines[i].trim().startsWith('> ')) {
-        quoteLines.push(lines[i].trim().replace(/^>\s+/, ''));
+      while (i < lines.length && lines[i].trim().startsWith("> ")) {
+        quoteLines.push(lines[i].trim().replace(/^>\s+/, ""));
         i++;
       }
       elements.push(
@@ -197,7 +214,7 @@ function renderFormattedText(
               {idx < quoteLines.length - 1 && <br />}
             </React.Fragment>
           ))}
-        </blockquote>
+        </blockquote>,
       );
       continue;
     }
@@ -206,17 +223,20 @@ function renderFormattedText(
     if (/^\s*[-*•]\s+/.test(trimmed)) {
       const listItems: string[] = [];
       while (i < lines.length && /^\s*[-*•]\s+/.test(lines[i].trim())) {
-        listItems.push(lines[i].trim().replace(/^\s*[-*•]\s+/, ''));
+        listItems.push(lines[i].trim().replace(/^\s*[-*•]\s+/, ""));
         i++;
       }
       elements.push(
-        <ul key={`ul-${keyCounter++}`} className="space-y-1.5 my-2 pl-4 list-disc marker:text-purple-600 text-xs">
+        <ul
+          key={`ul-${keyCounter++}`}
+          className="space-y-1.5 my-2 pl-4 list-disc marker:text-purple-600 text-xs"
+        >
           {listItems.map((item, idx) => (
             <li key={idx} className="pl-1 leading-relaxed">
               {formatInline(item)}
             </li>
           ))}
-        </ul>
+        </ul>,
       );
       continue;
     }
@@ -225,17 +245,20 @@ function renderFormattedText(
     if (/^\s*\d+[.)]\s+/.test(trimmed)) {
       const listItems: string[] = [];
       while (i < lines.length && /^\s*\d+[.)]\s+/.test(lines[i].trim())) {
-        listItems.push(lines[i].trim().replace(/^\s*\d+[.)]\s+/, ''));
+        listItems.push(lines[i].trim().replace(/^\s*\d+[.)]\s+/, ""));
         i++;
       }
       elements.push(
-        <ol key={`ol-${keyCounter++}`} className="space-y-1.5 my-2 pl-5 list-decimal marker:text-purple-600 marker:font-bold text-xs">
+        <ol
+          key={`ol-${keyCounter++}`}
+          className="space-y-1.5 my-2 pl-5 list-decimal marker:text-purple-600 marker:font-bold text-xs"
+        >
           {listItems.map((item, idx) => (
             <li key={idx} className="pl-1 leading-relaxed">
               {formatInline(item)}
             </li>
           ))}
-        </ol>
+        </ol>,
       );
       continue;
     }
@@ -251,8 +274,8 @@ function renderFormattedText(
       if (tableLines.length >= 2) {
         // Parse header row
         const headerCells = tableLines[0]
-          .split('|')
-          .filter((c) => c.trim() !== '')
+          .split("|")
+          .filter((c) => c.trim() !== "")
           .map((c) => c.trim());
 
         // Check if second row is separator (|---|---|)
@@ -262,27 +285,30 @@ function renderFormattedText(
         // Parse data rows
         const dataRows = tableLines.slice(dataStartIdx).map((row) =>
           row
-            .split('|')
-            .filter((c) => c.trim() !== '')
-            .map((c) => c.trim())
+            .split("|")
+            .filter((c) => c.trim() !== "")
+            .map((c) => c.trim()),
         );
 
-        const rawTableText = tableLines.join('\n');
+        const rawTableText = tableLines.join("\n");
         const tabSeparatedText = tableLines
           .filter((line) => !/^\|[\s:]*-+[\s:]*\|/.test(line)) // Remove separator
           .map((line) => {
-            const inner = line.replace(/^\|(.+)\|$/, '$1');
+            const inner = line.replace(/^\|(.+)\|$/, "$1");
             return inner
-              .split('|')
+              .split("|")
               .map((cell) => cell.trim())
-              .join('\t');
+              .join("\t");
           })
-          .join('\n');
+          .join("\n");
 
         const isCopied = copiedContentId === tabSeparatedText;
 
         elements.push(
-          <div key={`tbl-${keyCounter++}`} className="my-3 overflow-hidden rounded-xl border border-slate-200 shadow-sm bg-white">
+          <div
+            key={`tbl-${keyCounter++}`}
+            className="my-3 overflow-hidden rounded-xl border border-slate-200 shadow-sm bg-white"
+          >
             {onCopyContent && (
               <div className="bg-slate-50 border-b border-slate-200 px-3 py-1.5 flex justify-between items-center text-[10px] font-mono text-slate-500 uppercase font-bold tracking-wider">
                 <span className="flex items-center gap-1.5">
@@ -299,46 +325,46 @@ function renderFormattedText(
                   ) : (
                     <Copy className="w-3 h-3" />
                   )}
-                  <span>{isCopied ? 'Copied' : 'Copy'}</span>
+                  <span>{isCopied ? "Copied" : "Copy"}</span>
                 </button>
               </div>
             )}
             <div className="overflow-x-auto">
               <table className="w-full text-xs border-collapse">
-              <thead>
-                <tr className="bg-purple-50 border-b border-purple-200">
-                  {headerCells.map((cell, cIdx) => (
-                    <th
-                      key={cIdx}
-                      className="px-3 py-2 text-left font-bold text-slate-900 border-r border-purple-100 last:border-r-0 whitespace-nowrap"
-                    >
-                      {formatInline(cell)}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {dataRows.map((row, rIdx) => (
-                  <tr
-                    key={rIdx}
-                    className={`border-b border-slate-100 last:border-b-0 ${
-                      rIdx % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'
-                    } hover:bg-purple-50/30 transition-colors`}
-                  >
-                    {headerCells.map((_, cIdx) => (
-                      <td
+                <thead>
+                  <tr className="bg-purple-50 border-b border-purple-200">
+                    {headerCells.map((cell, cIdx) => (
+                      <th
                         key={cIdx}
-                        className="px-3 py-1.5 text-slate-700 border-r border-slate-100 last:border-r-0"
+                        className="px-3 py-2 text-left font-bold text-slate-900 border-r border-purple-100 last:border-r-0 whitespace-nowrap"
                       >
-                        {formatInline(row[cIdx] || '')}
-                      </td>
+                        {formatInline(cell)}
+                      </th>
                     ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          </div>
+                </thead>
+                <tbody>
+                  {dataRows.map((row, rIdx) => (
+                    <tr
+                      key={rIdx}
+                      className={`border-b border-slate-100 last:border-b-0 ${
+                        rIdx % 2 === 0 ? "bg-white" : "bg-slate-50/50"
+                      } hover:bg-purple-50/30 transition-colors`}
+                    >
+                      {headerCells.map((_, cIdx) => (
+                        <td
+                          key={cIdx}
+                          className="px-3 py-1.5 text-slate-700 border-r border-slate-100 last:border-r-0"
+                        >
+                          {formatInline(row[cIdx] || "")}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>,
         );
         continue;
       }
@@ -348,11 +374,11 @@ function renderFormattedText(
     const paraLines: string[] = [];
     while (
       i < lines.length &&
-      lines[i].trim() !== '' &&
+      lines[i].trim() !== "" &&
       !/^#{1,6}\s/.test(lines[i].trim()) &&
       !/^\s*[-*•]\s+/.test(lines[i].trim()) &&
       !/^\s*\d+[.)]\s+/.test(lines[i].trim()) &&
-      !lines[i].trim().startsWith('> ') &&
+      !lines[i].trim().startsWith("> ") &&
       !/^[-*_]{3,}$/.test(lines[i].trim()) &&
       !/^\|.+\|/.test(lines[i].trim())
     ) {
@@ -362,14 +388,17 @@ function renderFormattedText(
 
     if (paraLines.length > 0) {
       elements.push(
-        <p key={`p-${keyCounter++}`} className="text-xs sm:text-[13px] leading-relaxed text-slate-800">
+        <p
+          key={`p-${keyCounter++}`}
+          className="text-xs sm:text-[13px] leading-relaxed text-slate-800"
+        >
           {paraLines.map((pl, idx) => (
             <React.Fragment key={idx}>
               {formatInline(pl)}
               {idx < paraLines.length - 1 && <br />}
             </React.Fragment>
           ))}
-        </p>
+        </p>,
       );
     }
   }
@@ -382,12 +411,13 @@ function renderFormattedText(
  */
 function formatInline(str: string): React.ReactNode {
   // Regex to match: ***bold italic***, **bold**, *italic*, `code`, [text](url)
-  const regex = /(\*\*\*.*?\*\*\*|\*\*.*?\*\*|\*[^*]+?\*|`[^`]+?`|\[[^\]]+?\]\([^)]+?\))/g;
+  const regex =
+    /(\*\*\*.*?\*\*\*|\*\*.*?\*\*|\*[^*]+?\*|`[^`]+?`|\[[^\]]+?\]\([^)]+?\))/g;
   const parts = str.split(regex);
 
   return parts.map((part, idx) => {
     // ***bold italic***
-    if (part.startsWith('***') && part.endsWith('***') && part.length > 6) {
+    if (part.startsWith("***") && part.endsWith("***") && part.length > 6) {
       return (
         <strong key={idx} className="font-bold italic text-slate-900">
           {part.slice(3, -3)}
@@ -395,7 +425,7 @@ function formatInline(str: string): React.ReactNode {
       );
     }
     // **bold**
-    if (part.startsWith('**') && part.endsWith('**') && part.length > 4) {
+    if (part.startsWith("**") && part.endsWith("**") && part.length > 4) {
       return (
         <strong key={idx} className="font-bold text-slate-900">
           {part.slice(2, -2)}
@@ -403,7 +433,12 @@ function formatInline(str: string): React.ReactNode {
       );
     }
     // *italic*
-    if (part.startsWith('*') && part.endsWith('*') && !part.startsWith('**') && part.length > 2) {
+    if (
+      part.startsWith("*") &&
+      part.endsWith("*") &&
+      !part.startsWith("**") &&
+      part.length > 2
+    ) {
       return (
         <em key={idx} className="italic text-slate-700">
           {part.slice(1, -1)}
@@ -411,7 +446,7 @@ function formatInline(str: string): React.ReactNode {
       );
     }
     // `inline code`
-    if (part.startsWith('`') && part.endsWith('`') && part.length > 2) {
+    if (part.startsWith("`") && part.endsWith("`") && part.length > 2) {
       return (
         <code
           key={idx}
@@ -443,7 +478,7 @@ function formatInline(str: string): React.ReactNode {
 export const DoubtSolverPage: React.FC = () => {
   // Layout State: Collapsible Sidebar (like ChatGPT / Gemini)
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       return window.innerWidth >= 1024;
     }
     return true;
@@ -451,7 +486,7 @@ export const DoubtSolverPage: React.FC = () => {
 
   // Chat Sessions History State (Stored in localStorage)
   const [sessions, setSessions] = useState<DoubtChatSession[]>(() => {
-    if (typeof window === 'undefined') return [];
+    if (typeof window === "undefined") return [];
     try {
       const saved = localStorage.getItem(SESSIONS_STORAGE_KEY);
       return saved ? JSON.parse(saved) : [];
@@ -461,13 +496,13 @@ export const DoubtSolverPage: React.FC = () => {
   });
 
   const [activeSessionId, setActiveSessionId] = useState<string | null>(() => {
-    if (typeof window === 'undefined') return null;
+    if (typeof window === "undefined") return null;
     return localStorage.getItem(ACTIVE_SESSION_ID_KEY) || null;
   });
 
   // Current active chat messages
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [inputMessage, setInputMessage] = useState('');
+  const [inputMessage, setInputMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [copiedCodeText, setCopiedCodeText] = useState<string | null>(null);
@@ -476,7 +511,9 @@ export const DoubtSolverPage: React.FC = () => {
 
   // Audio / Speech State
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
-  const [speakingMessageId, setSpeakingMessageId] = useState<string | null>(null);
+  const [speakingMessageId, setSpeakingMessageId] = useState<string | null>(
+    null,
+  );
   const [isListening, setIsListening] = useState<boolean>(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -489,7 +526,7 @@ export const DoubtSolverPage: React.FC = () => {
   };
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -508,14 +545,14 @@ export const DoubtSolverPage: React.FC = () => {
 
   // Sync sessions to localStorage
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       localStorage.setItem(SESSIONS_STORAGE_KEY, JSON.stringify(sessions));
     }
   }, [sessions]);
 
   // Sync activeSessionId to localStorage
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       if (activeSessionId) {
         localStorage.setItem(ACTIVE_SESSION_ID_KEY, activeSessionId);
       } else {
@@ -530,10 +567,11 @@ export const DoubtSolverPage: React.FC = () => {
 
     if (!activeSessionId) {
       // Create new session automatically on first message
-      const firstUserMsg = messages.find((m) => m.role === 'user');
+      const firstUserMsg = messages.find((m) => m.role === "user");
       const title = firstUserMsg
-        ? firstUserMsg.content.slice(0, 36).trim() + (firstUserMsg.content.length > 36 ? '...' : '')
-        : 'New Doubt Session';
+        ? firstUserMsg.content.slice(0, 36).trim() +
+          (firstUserMsg.content.length > 36 ? "..." : "")
+        : "New Doubt Session";
 
       const newId = `session-${Date.now()}`;
       const newSession: DoubtChatSession = {
@@ -541,7 +579,7 @@ export const DoubtSolverPage: React.FC = () => {
         title,
         createdAt: Date.now(),
         updatedAt: Date.now(),
-        messages
+        messages,
       };
 
       setSessions((prev) => [newSession, ...prev]);
@@ -552,8 +590,8 @@ export const DoubtSolverPage: React.FC = () => {
         prev.map((s) =>
           s.id === activeSessionId
             ? { ...s, messages, updatedAt: Date.now() }
-            : s
-        )
+            : s,
+        ),
       );
     }
   }, [messages]);
@@ -561,7 +599,7 @@ export const DoubtSolverPage: React.FC = () => {
   // Cleanup speech synthesis and mic on unmount
   useEffect(() => {
     return () => {
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      if (typeof window !== "undefined" && "speechSynthesis" in window) {
         window.speechSynthesis.cancel();
       }
       if (speechRecognitionRef.current) {
@@ -573,10 +611,11 @@ export const DoubtSolverPage: React.FC = () => {
   // Voice Input (Speech Recognition)
   const toggleSpeechRecognition = () => {
     const SpeechRecognition =
-      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
-      showToast('Speech Recognition is not supported by your browser.');
+      showToast("Speech Recognition is not supported by your browser.");
       return;
     }
 
@@ -592,23 +631,25 @@ export const DoubtSolverPage: React.FC = () => {
       const recognition = new SpeechRecognition();
       recognition.continuous = false;
       recognition.interimResults = false;
-      recognition.lang = 'en-US';
+      recognition.lang = "en-US";
 
       recognition.onstart = () => {
         setIsListening(true);
-        showToast('Listening... Speak your doubt now.');
+        showToast("Listening... Speak your doubt now.");
       };
 
       recognition.onresult = (event: any) => {
         const transcript = event.results[0][0].transcript;
         if (transcript) {
-          setInputMessage((prev) => (prev ? `${prev} ${transcript}` : transcript));
+          setInputMessage((prev) =>
+            prev ? `${prev} ${transcript}` : transcript,
+          );
         }
       };
 
       recognition.onerror = () => {
         setIsListening(false);
-        showToast('Voice input stopped or encountered an error.');
+        showToast("Voice input stopped or encountered an error.");
       };
 
       recognition.onend = () => {
@@ -619,14 +660,14 @@ export const DoubtSolverPage: React.FC = () => {
       recognition.start();
     } catch {
       setIsListening(false);
-      showToast('Could not initialize speech recognition.');
+      showToast("Could not initialize speech recognition.");
     }
   };
 
   // Text-to-Speech (Read Aloud)
   const handleToggleSpeech = (msgId: string, textToSpeak: string) => {
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
-      showToast('Text-to-speech is not supported by your browser.');
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+      showToast("Text-to-speech is not supported by your browser.");
       return;
     }
 
@@ -638,7 +679,7 @@ export const DoubtSolverPage: React.FC = () => {
     }
 
     window.speechSynthesis.cancel();
-    const cleanText = textToSpeak.replace(/[`*#_]/g, '');
+    const cleanText = textToSpeak.replace(/[`*#_]/g, "");
     const utterance = new SpeechSynthesisUtterance(cleanText);
     utterance.rate = 1.0;
     utterance.pitch = 1.0;
@@ -663,19 +704,22 @@ export const DoubtSolverPage: React.FC = () => {
     const query = (textToSend || inputMessage).trim();
     if (!query || loading) return;
 
-    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+    if (typeof window !== "undefined" && window.innerWidth < 1024) {
       setSidebarOpen(false);
     }
 
     const userMsg: ChatMessage = {
       id: `usr-${Date.now()}`,
-      role: 'user',
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      content: query
+      role: "user",
+      timestamp: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      content: query,
     };
 
     setMessages((prev) => [...prev, userMsg]);
-    setInputMessage('');
+    setInputMessage("");
     setLoading(true);
 
     const historyPayload = messages
@@ -685,16 +729,19 @@ export const DoubtSolverPage: React.FC = () => {
     try {
       const botReply = await solveDoubtAI({
         question: query,
-        history: historyPayload
+        history: historyPayload,
       });
 
       setMessages((prev) => [...prev, botReply]);
     } catch (err: any) {
       const errorReply: ChatMessage = {
         id: `err-${Date.now()}`,
-        role: 'assistant',
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        content: `I encountered an issue formulating your explanation (${err.message || 'Network error'}). Please try asking again.`
+        role: "assistant",
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        content: `I encountered an issue formulating your explanation (${err.message || "Network error"}). Please try asking again.`,
       };
       setMessages((prev) => [...prev, errorReply]);
     } finally {
@@ -704,7 +751,7 @@ export const DoubtSolverPage: React.FC = () => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
     }
@@ -715,54 +762,55 @@ export const DoubtSolverPage: React.FC = () => {
     const cleanText = text
       .replace(/```[a-zA-Z0-9_-]*\n[\s\S]*?```/g, (match) => {
         // Keep code content but remove code fences
-        return match.replace(/```[a-zA-Z0-9_-]*\n/, '').replace(/```$/, '');
+        return match.replace(/```[a-zA-Z0-9_-]*\n/, "").replace(/```$/, "");
       })
-      .replace(/^#{1,6}\s+/gm, '')           // Remove heading markers
-      .replace(/\*\*\*(.*?)\*\*\*/g, '$1')    // Remove ***bold italic***
-      .replace(/\*\*(.*?)\*\*/g, '$1')        // Remove **bold**
-      .replace(/\*(.*?)\*/g, '$1')            // Remove *italic*
-      .replace(/`([^`]+)`/g, '$1')            // Remove `inline code`
-      .replace(/^\|[\s:]*-+[\s:]*(\|[\s:]*-+[\s:]*)*\|?\s*$/gm, '') // Remove table separator rows (|---|---|)
-      .replace(/^\|(.+)\|$/gm, (_match, inner) => {                  // Convert table rows to tab-separated
+      .replace(/^#{1,6}\s+/gm, "") // Remove heading markers
+      .replace(/\*\*\*(.*?)\*\*\*/g, "$1") // Remove ***bold italic***
+      .replace(/\*\*(.*?)\*\*/g, "$1") // Remove **bold**
+      .replace(/\*(.*?)\*/g, "$1") // Remove *italic*
+      .replace(/`([^`]+)`/g, "$1") // Remove `inline code`
+      .replace(/^\|[\s:]*-+[\s:]*(\|[\s:]*-+[\s:]*)*\|?\s*$/gm, "") // Remove table separator rows (|---|---|)
+      .replace(/^\|(.+)\|$/gm, (_match, inner) => {
+        // Convert table rows to tab-separated
         return inner
-          .split('|')
+          .split("|")
           .map((cell: string) => cell.trim())
-          .join('\t');
+          .join("\t");
       })
-      .replace(/^\s*[-*•]\s+/gm, '• ')        // Normalize bullets
-      .replace(/^\s*>\s+/gm, '')              // Remove blockquote markers
-      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Remove links, keep text
-      .replace(/\n{3,}/g, '\n\n')             // Collapse excess newlines
+      .replace(/^\s*[-*•]\s+/gm, "• ") // Normalize bullets
+      .replace(/^\s*>\s+/gm, "") // Remove blockquote markers
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") // Remove links, keep text
+      .replace(/\n{3,}/g, "\n\n") // Collapse excess newlines
       .trim();
     navigator.clipboard.writeText(cleanText);
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 2000);
-    showToast('Copied answer to clipboard.');
+    showToast("Copied answer to clipboard.");
   };
 
   const handleCopyCode = (codeText: string) => {
     navigator.clipboard.writeText(codeText);
     setCopiedCodeText(codeText);
     setTimeout(() => setCopiedCodeText(null), 2000);
-    showToast('Copied code example.');
+    showToast("Copied code example.");
   };
 
   // New Chat session
   const handleNewSession = () => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
       window.speechSynthesis.cancel();
     }
     setIsSpeaking(false);
     setSpeakingMessageId(null);
     setMessages([]);
-    setInputMessage('');
+    setInputMessage("");
     setActiveSessionId(null);
-    showToast('Started new doubt clearing chat.');
+    showToast("Started new doubt clearing chat.");
   };
 
   // Switch to saved session
   const handleSelectSession = (sessionId: string) => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
       window.speechSynthesis.cancel();
     }
     setIsSpeaking(false);
@@ -772,7 +820,7 @@ export const DoubtSolverPage: React.FC = () => {
     if (session) {
       setMessages(session.messages);
     }
-    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+    if (typeof window !== "undefined" && window.innerWidth < 1024) {
       setSidebarOpen(false);
     }
   };
@@ -785,7 +833,7 @@ export const DoubtSolverPage: React.FC = () => {
       setMessages([]);
       setActiveSessionId(null);
     }
-    showToast('Deleted conversation.');
+    showToast("Deleted conversation.");
   };
 
   // Clear all saved sessions
@@ -795,40 +843,40 @@ export const DoubtSolverPage: React.FC = () => {
     setActiveSessionId(null);
     localStorage.removeItem(SESSIONS_STORAGE_KEY);
     localStorage.removeItem(ACTIVE_SESSION_ID_KEY);
-    showToast('Cleared all chat history.');
+    showToast("Cleared all chat history.");
   };
 
   // Exports
   const handleExportMarkdown = () => {
     if (messages.length === 0) {
-      showToast('No conversation to export.');
+      showToast("No conversation to export.");
       return;
     }
     const currentSession = sessions.find((s) => s.id === activeSessionId);
-    const title = currentSession?.title || 'Doubt_Solver_Chat';
+    const title = currentSession?.title || "Doubt_Solver_Chat";
     const md = exportDoubtChatToMarkdown(messages, title);
-    const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+    const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = url;
-    link.download = `${title.replace(/[^a-zA-Z0-9_-]/g, '_')}.md`;
+    link.download = `${title.replace(/[^a-zA-Z0-9_-]/g, "_")}.md`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-    showToast('Downloaded Markdown chat notes.');
+    showToast("Downloaded Markdown chat notes.");
     setExportMenuOpen(false);
   };
 
   const handleExportPrintable = () => {
     if (messages.length === 0) {
-      showToast('No conversation to print.');
+      showToast("No conversation to print.");
       return;
     }
     const currentSession = sessions.find((s) => s.id === activeSessionId);
-    const title = currentSession?.title || 'AI Doubt Solver Notes';
+    const title = currentSession?.title || "AI Doubt Solver Notes";
     const html = generatePrintableDoubtHtml(messages, title);
-    const win = window.open('', '_blank');
+    const win = window.open("", "_blank");
     if (win) {
       win.document.write(html);
       win.document.close();
@@ -859,8 +907,8 @@ export const DoubtSolverPage: React.FC = () => {
       <aside
         className={`fixed lg:relative inset-y-0 left-0 z-40 bg-white border-r border-[#DFE4F2] flex flex-col h-full transition-all duration-300 ease-in-out shrink-0 text-left ${
           sidebarOpen
-            ? 'w-72 sm:w-80 max-w-[85vw] translate-x-0 shadow-2xl lg:shadow-none'
-            : 'w-0 border-r-0 -translate-x-full lg:translate-x-0 overflow-hidden pointer-events-none'
+            ? "w-72 sm:w-80 max-w-[85vw] translate-x-0 shadow-2xl lg:shadow-none"
+            : "w-0 border-r-0 -translate-x-full lg:translate-x-0 overflow-hidden pointer-events-none"
         }`}
       >
         <div className="w-72 sm:w-80 flex flex-col h-full shrink-0">
@@ -917,14 +965,16 @@ export const DoubtSolverPage: React.FC = () => {
                       onClick={() => handleSelectSession(sess.id)}
                       className={`group w-full p-2.5 rounded-xl text-left font-medium transition-all flex items-center justify-between gap-2 cursor-pointer ${
                         isActive
-                          ? 'bg-purple-50 text-[#7C3AED] border border-purple-200 font-bold shadow-2xs'
-                          : 'text-slate-700 hover:bg-slate-50 border border-transparent'
+                          ? "bg-purple-50 text-[#7C3AED] border border-purple-200 font-bold shadow-2xs"
+                          : "text-slate-700 hover:bg-slate-50 border border-transparent"
                       }`}
                     >
                       <div className="flex items-center gap-2 min-w-0">
                         <MessageSquare
                           className={`w-3.5 h-3.5 shrink-0 ${
-                            isActive ? 'text-[#7C3AED]' : 'text-slate-400 group-hover:text-slate-600'
+                            isActive
+                              ? "text-[#7C3AED]"
+                              : "text-slate-400 group-hover:text-slate-600"
                           }`}
                         />
                         <span className="truncate text-xs">{sess.title}</span>
@@ -1097,7 +1147,8 @@ export const DoubtSolverPage: React.FC = () => {
                     What do you want to learn today?
                   </h2>
                   <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto leading-relaxed px-2">
-                    Ask any doubt across coding, mathematics, science, engineering, or homework. I'll break it down step-by-step.
+                    Ask any doubt across coding, mathematics, science,
+                    engineering, or homework. I'll break it down step-by-step.
                   </p>
                 </div>
 
@@ -1129,13 +1180,14 @@ export const DoubtSolverPage: React.FC = () => {
             ) : (
               /* ACTIVE MESSAGES STREAM */
               messages.map((m) => {
-                const isUser = m.role === 'user';
-                const isCurrentSpeaking = isSpeaking && speakingMessageId === m.id;
+                const isUser = m.role === "user";
+                const isCurrentSpeaking =
+                  isSpeaking && speakingMessageId === m.id;
 
                 return (
                   <div
                     key={m.id}
-                    className={`flex gap-3 ${isUser ? 'justify-end' : 'justify-start'}`}
+                    className={`flex gap-3 ${isUser ? "justify-end" : "justify-start"}`}
                   >
                     {!isUser && (
                       <div className="w-8 h-8 rounded-xl bg-purple-50 border border-purple-200 text-[#7C3AED] flex items-center justify-center shrink-0 shadow-xs mt-1">
@@ -1146,20 +1198,20 @@ export const DoubtSolverPage: React.FC = () => {
                     <div
                       className={`rounded-3xl p-4 sm:p-5 text-xs relative group leading-relaxed shadow-xs transition-all overflow-hidden ${
                         isUser
-                          ? 'max-w-[85%] bg-[#080909] text-white rounded-br-sm shadow-md'
-                          : 'w-full bg-white border border-slate-200 text-slate-800 rounded-bl-sm space-y-3'
+                          ? "max-w-[85%] bg-[#080909] text-white rounded-br-sm shadow-md"
+                          : "w-full bg-white border border-slate-200 text-slate-800 rounded-bl-sm space-y-3"
                       }`}
                     >
                       {/* Message Header */}
                       <div
                         className={`flex items-center justify-between gap-4 text-[10px] pb-1.5 border-b font-mono ${
                           isUser
-                            ? 'border-white/10 text-white/70'
-                            : 'border-slate-100 text-slate-400'
+                            ? "border-white/10 text-white/70"
+                            : "border-slate-100 text-slate-400"
                         }`}
                       >
                         <span className="font-bold uppercase tracking-wider">
-                          {isUser ? 'You' : 'AI Doubt Solver'}
+                          {isUser ? "You" : "AI Doubt Solver"}
                         </span>
                         <div className="flex items-center gap-3">
                           {isUser && (
@@ -1174,7 +1226,9 @@ export const DoubtSolverPage: React.FC = () => {
                               ) : (
                                 <Copy className="w-3 h-3" />
                               )}
-                              <span>{copiedId === m.id ? 'Copied' : 'Copy'}</span>
+                              <span>
+                                {copiedId === m.id ? "Copied" : "Copy"}
+                              </span>
                             </button>
                           )}
                           <span>{m.timestamp}</span>
@@ -1200,11 +1254,13 @@ export const DoubtSolverPage: React.FC = () => {
                           <div className="flex items-center gap-2">
                             <button
                               type="button"
-                              onClick={() => handleToggleSpeech(m.id, m.content)}
+                              onClick={() =>
+                                handleToggleSpeech(m.id, m.content)
+                              }
                               className={`p-1.5 rounded-lg border flex items-center gap-1 transition-colors cursor-pointer min-h-[28px] ${
                                 isCurrentSpeaking
-                                  ? 'bg-purple-100 border-purple-300 text-[#7C3AED] font-bold'
-                                  : 'bg-slate-50 border-slate-200 text-slate-500 hover:text-slate-800'
+                                  ? "bg-purple-100 border-purple-300 text-[#7C3AED] font-bold"
+                                  : "bg-slate-50 border-slate-200 text-slate-500 hover:text-slate-800"
                               }`}
                               title="Read explanation aloud"
                             >
@@ -1232,32 +1288,36 @@ export const DoubtSolverPage: React.FC = () => {
                               ) : (
                                 <Copy className="w-3.5 h-3.5" />
                               )}
-                              <span>{copiedId === m.id ? 'Copied' : 'Copy'}</span>
+                              <span>
+                                {copiedId === m.id ? "Copied" : "Copy"}
+                              </span>
                             </button>
                           </div>
                         </div>
                       )}
 
                       {/* Suggested Follow-Ups Chips */}
-                      {!isUser && m.suggestedFollowUps && m.suggestedFollowUps.length > 0 && (
-                        <div className="pt-2 space-y-1.5">
-                          <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block font-mono">
-                            Suggested Follow-Ups:
-                          </span>
-                          <div className="flex flex-wrap gap-1.5">
-                            {m.suggestedFollowUps.map((fu, fIdx) => (
-                              <button
-                                key={fIdx}
-                                type="button"
-                                onClick={() => handleSendMessage(fu)}
-                                className="text-[11px] px-2.5 py-1 rounded-xl bg-purple-50 hover:bg-purple-100 text-[#7C3AED] border border-purple-200 font-medium transition-colors cursor-pointer text-left leading-snug"
-                              >
-                                &bull; {fu}
-                              </button>
-                            ))}
+                      {!isUser &&
+                        m.suggestedFollowUps &&
+                        m.suggestedFollowUps.length > 0 && (
+                          <div className="pt-2 space-y-1.5">
+                            <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block font-mono">
+                              Suggested Follow-Ups:
+                            </span>
+                            <div className="flex flex-wrap gap-1.5">
+                              {m.suggestedFollowUps.map((fu, fIdx) => (
+                                <button
+                                  key={fIdx}
+                                  type="button"
+                                  onClick={() => handleSendMessage(fu)}
+                                  className="text-[11px] px-2.5 py-1 rounded-xl bg-purple-50 hover:bg-purple-100 text-[#7C3AED] border border-purple-200 font-medium transition-colors cursor-pointer text-left leading-snug"
+                                >
+                                  &bull; {fu}
+                                </button>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
                     </div>
 
                     {isUser && (
@@ -1278,7 +1338,10 @@ export const DoubtSolverPage: React.FC = () => {
                 </div>
                 <div className="bg-slate-50 border border-slate-200 p-3.5 rounded-2xl rounded-bl-sm text-xs text-[#7C3AED] italic flex items-center gap-2 shadow-xs">
                   <Sparkles className="w-3.5 h-3.5 animate-spin text-[#7C3AED] shrink-0" />
-                  <span>AI Tutor is thinking and formulating step-by-step explanation...</span>
+                  <span>
+                    AI Tutor is thinking and formulating step-by-step
+                    explanation...
+                  </span>
                 </div>
               </div>
             )}
@@ -1296,9 +1359,9 @@ export const DoubtSolverPage: React.FC = () => {
               <div
                 className="flex items-center gap-1.5 overflow-x-auto text-[11px] no-scrollbar select-none py-1 scroll-smooth w-full"
                 style={{
-                  scrollbarWidth: 'none',
-                  msOverflowStyle: 'none',
-                  WebkitOverflowScrolling: 'touch',
+                  scrollbarWidth: "none",
+                  msOverflowStyle: "none",
+                  WebkitOverflowScrolling: "touch",
                 }}
               >
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 shrink-0 font-mono pl-0.5">
@@ -1326,12 +1389,16 @@ export const DoubtSolverPage: React.FC = () => {
                 onClick={toggleSpeechRecognition}
                 className={`p-2 sm:p-2.5 rounded-2xl border transition-all cursor-pointer shrink-0 min-w-[36px] min-h-[36px] sm:min-w-[40px] sm:min-h-[40px] flex items-center justify-center ${
                   isListening
-                    ? 'bg-rose-50 border-rose-400 text-rose-600 animate-pulse shadow-xs'
-                    : 'bg-white border-slate-200 text-slate-500 hover:text-[#7C3AED] hover:bg-purple-50'
+                    ? "bg-rose-50 border-rose-400 text-rose-600 animate-pulse shadow-xs"
+                    : "bg-white border-slate-200 text-slate-500 hover:text-[#7C3AED] hover:bg-purple-50"
                 }`}
-                title={isListening ? 'Stop listening' : 'Speak doubt verbally'}
+                title={isListening ? "Stop listening" : "Speak doubt verbally"}
               >
-                {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                {isListening ? (
+                  <MicOff className="w-4 h-4" />
+                ) : (
+                  <Mic className="w-4 h-4" />
+                )}
               </button>
 
               <textarea
@@ -1356,9 +1423,11 @@ export const DoubtSolverPage: React.FC = () => {
 
             {/* Disclaimer Footer */}
             <div className="flex justify-between items-center text-[10px] text-slate-400 px-1.5 sm:px-2 font-mono">
-              <span className="hidden sm:inline">Press Enter to send &bull; Shift + Enter for new line</span>
+              <span className="hidden sm:inline">
+                Press Enter to send &bull; Shift + Enter for new line
+              </span>
               <span className="sm:hidden">Tap Send to submit</span>
-              <span>Powered by Gemini AI</span>
+              <span>Powered by StudyNova AI</span>
             </div>
           </div>
         </div>

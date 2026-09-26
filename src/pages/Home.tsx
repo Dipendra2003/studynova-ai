@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   FileText,
   BookOpen,
@@ -18,129 +18,129 @@ import {
   ChevronDown,
   GraduationCap,
   Code,
-  Zap
-} from 'lucide-react';
-import heroVisualImg from '../assets/images/hero_playful_ai_student_1790345403725.jpg';
+  Zap,
+} from "lucide-react";
+import heroVisualImg from "../assets/images/hero_playful_ai_student_1790345403725.jpg";
 
 export const Home: React.FC = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const tools = [
     {
-      number: '01',
-      name: 'AI Resume Builder',
-      route: '/resume-builder',
-      description: 'Create professional ATS-friendly resumes with AI.',
-      accent: '#7C3AED', // Studio Purple
-      accentBg: 'bg-[#7C3AED]/10 text-[#7C3AED]',
-      tags: ['ATS-Compliant', 'Vector PDF', 'Instant Export'],
-      cta: 'Build Resume →',
-      visualType: 'document'
+      number: "01",
+      name: "AI Resume Builder",
+      route: "/resume-builder",
+      description: "Create professional ATS-friendly resumes with AI.",
+      accent: "#7C3AED", // Studio Purple
+      accentBg: "bg-[#7C3AED]/10 text-[#7C3AED]",
+      tags: ["ATS-Compliant", "Vector PDF", "Instant Export"],
+      cta: "Build Resume →",
+      visualType: "document",
     },
     {
-      number: '02',
-      name: 'AI Notes Generator',
-      route: '/notes-generator',
-      description: 'Turn raw study material into structured notes.',
-      accent: '#F59E0B', // Warm Amber
-      accentBg: 'bg-[#F59E0B]/10 text-[#F59E0B]',
-      tags: ['Markdown', 'Study Guide', 'Exam Points'],
-      cta: 'Generate Notes →',
-      visualType: 'notes'
+      number: "02",
+      name: "AI Notes Generator",
+      route: "/notes-generator",
+      description: "Turn raw study material into structured notes.",
+      accent: "#F59E0B", // Warm Amber
+      accentBg: "bg-[#F59E0B]/10 text-[#F59E0B]",
+      tags: ["Markdown", "Study Guide", "Exam Points"],
+      cta: "Generate Notes →",
+      visualType: "notes",
     },
     {
-      number: '03',
-      name: 'AI Presentation Generator',
-      route: '/presentation-generator',
-      description: 'Generate complete slide-by-slide presentation content.',
-      accent: '#2563EB', // Electric Blue
-      accentBg: 'bg-[#2563EB]/10 text-[#2563EB]',
-      tags: ['Slide Decks', 'Interactive Player', 'Speaker Script'],
-      cta: 'Create Presentation →',
-      visualType: 'presentation'
+      number: "03",
+      name: "AI Presentation Generator",
+      route: "/presentation-generator",
+      description: "Generate complete slide-by-slide presentation content.",
+      accent: "#2563EB", // Electric Blue
+      accentBg: "bg-[#2563EB]/10 text-[#2563EB]",
+      tags: ["Slide Decks", "Interactive Player", "Speaker Script"],
+      cta: "Create Presentation →",
+      visualType: "presentation",
     },
     {
-      number: '04',
-      name: 'AI Mind Map Generator',
-      route: '/mind-map-generator',
-      description: 'Convert syllabi and topics into visual mind maps.',
-      accent: '#10B981', // Mint
-      accentBg: 'bg-[#10B981]/10 text-[#10B981]',
-      tags: ['Interactive SVG', 'Node Explorer', 'Visual Outlines'],
-      cta: 'Create Mind Map →',
-      visualType: 'mindmap'
+      number: "04",
+      name: "AI Mind Map Generator",
+      route: "/mind-map-generator",
+      description: "Convert syllabi and topics into visual mind maps.",
+      accent: "#10B981", // Mint
+      accentBg: "bg-[#10B981]/10 text-[#10B981]",
+      tags: ["Interactive SVG", "Node Explorer", "Visual Outlines"],
+      cta: "Create Mind Map →",
+      visualType: "mindmap",
     },
     {
-      number: '05',
-      name: 'Google Sheets Data Tool',
-      route: '/google-sheets',
-      description: 'Connect Google Sheets and visualize live data.',
-      accent: '#10B981', // Mint / Electric Blue
-      accentBg: 'bg-[#10B981]/10 text-[#10B981]',
-      tags: ['Live Sync', 'Zero-Server DB', 'Data Insights'],
-      cta: 'Open Sheets Tool →',
-      visualType: 'sheets'
+      number: "05",
+      name: "Google Sheets Data Tool",
+      route: "/google-sheets",
+      description: "Connect Google Sheets and visualize live data.",
+      accent: "#10B981", // Mint / Electric Blue
+      accentBg: "bg-[#10B981]/10 text-[#10B981]",
+      tags: ["Live Sync", "Zero-Server DB", "Data Insights"],
+      cta: "Open Sheets Tool →",
+      visualType: "sheets",
     },
     {
-      number: '06',
-      name: 'AI Quiz Generator',
-      route: '/quiz-generator',
-      description: 'Generate interactive quizzes from topics and notes.',
-      accent: '#EC4899', // Soft Pink
-      accentBg: 'bg-[#EC4899]/10 text-[#EC4899]',
-      tags: ['Instant Grading', 'Explanations', 'Active Recall'],
-      cta: 'Generate Quiz →',
-      visualType: 'quiz'
+      number: "06",
+      name: "AI Quiz Generator",
+      route: "/quiz-generator",
+      description: "Generate interactive quizzes from topics and notes.",
+      accent: "#EC4899", // Soft Pink
+      accentBg: "bg-[#EC4899]/10 text-[#EC4899]",
+      tags: ["Instant Grading", "Explanations", "Active Recall"],
+      cta: "Generate Quiz →",
+      visualType: "quiz",
     },
     {
-      number: '07',
-      name: 'AI Doubt Solver',
-      route: '/doubt-solver',
-      description: 'Ask questions and learn through AI-powered explanations.',
-      accent: '#7C3AED', // Studio Purple
-      accentBg: 'bg-[#7C3AED]/10 text-[#7C3AED]',
-      tags: ['Step-by-Step', 'Real Analogies', 'Tutor Chat'],
-      cta: 'Ask AI →',
-      visualType: 'tutor'
+      number: "07",
+      name: "AI Doubt Solver",
+      route: "/doubt-solver",
+      description: "Ask questions and learn through AI-powered explanations.",
+      accent: "#7C3AED", // Studio Purple
+      accentBg: "bg-[#7C3AED]/10 text-[#7C3AED]",
+      tags: ["Step-by-Step", "Real Analogies", "Tutor Chat"],
+      cta: "Ask AI →",
+      visualType: "tutor",
     },
     {
-      number: '08',
-      name: 'AI Flashcard Generator',
-      route: '/flashcard-generator',
-      description: 'Turn study material into interactive revision cards.',
-      accent: '#2563EB', // Electric Blue
-      accentBg: 'bg-[#2563EB]/10 text-[#2563EB]',
-      tags: ['3D Flip', 'Spaced Recall', 'Deck Shuffle'],
-      cta: 'Create Flashcards →',
-      visualType: 'flashcards'
+      number: "08",
+      name: "AI Flashcard Generator",
+      route: "/flashcard-generator",
+      description: "Turn study material into interactive revision cards.",
+      accent: "#2563EB", // Electric Blue
+      accentBg: "bg-[#2563EB]/10 text-[#2563EB]",
+      tags: ["3D Flip", "Spaced Recall", "Deck Shuffle"],
+      cta: "Create Flashcards →",
+      visualType: "flashcards",
     },
     {
-      number: '09',
-      name: 'AI Study Planner',
-      route: '/study-planner',
-      description: 'Generate personalized study timetables with AI.',
-      accent: '#F59E0B', // Warm Amber
-      accentBg: 'bg-[#F59E0B]/10 text-[#F59E0B]',
-      tags: ['Day Matrix', 'Exam Timetable', 'Priority Focus'],
-      cta: 'Plan My Study →',
-      visualType: 'planner'
+      number: "09",
+      name: "AI Study Planner",
+      route: "/study-planner",
+      description: "Generate personalized study timetables with AI.",
+      accent: "#F59E0B", // Warm Amber
+      accentBg: "bg-[#F59E0B]/10 text-[#F59E0B]",
+      tags: ["Day Matrix", "Exam Timetable", "Priority Focus"],
+      cta: "Plan My Study →",
+      visualType: "planner",
     },
     {
-      number: '10',
-      name: 'OCR Notes Summarizer',
-      route: '/ocr-summarizer',
-      description: 'Scan notes, extract text and summarize them with AI.',
-      accent: '#EC4899', // Soft Pink
-      accentBg: 'bg-[#EC4899]/10 text-[#EC4899]',
-      tags: ['Multimodal OCR', 'Handwriting Scan', 'Structured Summary'],
-      cta: 'Scan Notes →',
-      visualType: 'ocr'
-    }
+      number: "10",
+      name: "OCR Notes Summarizer",
+      route: "/ocr-summarizer",
+      description: "Scan notes, extract text and summarize them with AI.",
+      accent: "#EC4899", // Soft Pink
+      accentBg: "bg-[#EC4899]/10 text-[#EC4899]",
+      tags: ["Multimodal OCR", "Handwriting Scan", "Structured Summary"],
+      cta: "Scan Notes →",
+      visualType: "ocr",
+    },
   ];
 
   const renderToolVisual = (type: string, accent: string) => {
     switch (type) {
-      case 'document':
+      case "document":
         return (
           <div className="relative w-full bg-[#FBFBFE] rounded-2xl border border-[#DFE4F2] p-3.5 sm:p-4 overflow-hidden shadow-xs group-hover:shadow-md transition-all duration-300">
             {/* Top Document Header Bar */}
@@ -182,22 +182,34 @@ export const Home: React.FC = () => {
                 {/* Experience Item */}
                 <div className="space-y-1">
                   <div className="flex items-center justify-between text-[10px]">
-                    <span className="font-bold text-[#080909]">Lead AI Engineer · TechCore Labs</span>
-                    <span className="font-mono text-[9px] text-slate-600">2022–Present</span>
+                    <span className="font-bold text-[#080909]">
+                      Lead AI Engineer · TechCore Labs
+                    </span>
+                    <span className="font-mono text-[9px] text-slate-600">
+                      2022–Present
+                    </span>
                   </div>
                   <ul className="text-[9.5px] text-[#080909]/80 space-y-0.5 pl-2 border-l-2 border-[#7C3AED]/40">
                     <li className="leading-tight truncate">
-                      • Shipped distributed LLM pipelines processing 12M+ token requests/day
+                      • Shipped distributed LLM pipelines processing 12M+ token
+                      requests/day
                     </li>
                     <li className="leading-tight truncate">
-                      • Cut vector search latency by 42% via real-time hybrid index caching
+                      • Cut vector search latency by 42% via real-time hybrid
+                      index caching
                     </li>
                   </ul>
                 </div>
 
                 {/* Skills Pills */}
                 <div className="flex flex-wrap gap-1 pt-0.5">
-                  {['Python', 'TypeScript', 'Next.js', 'PyTorch', 'Vector DB'].map((s) => (
+                  {[
+                    "Python",
+                    "TypeScript",
+                    "Next.js",
+                    "PyTorch",
+                    "Vector DB",
+                  ].map((s) => (
                     <span
                       key={s}
                       className="text-[8.5px] font-mono font-medium px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 text-[#080909]/80"
@@ -246,24 +258,32 @@ export const Home: React.FC = () => {
           </div>
         );
 
-      case 'notes':
+      case "notes":
         return (
           <div className="relative w-full h-32 bg-[#F7F8FA] rounded-2xl border border-[#DFE4F2] p-3 overflow-hidden shadow-sm flex items-center justify-center">
             {/* Sticky notes visual */}
             <div className="absolute top-2 left-3 w-24 h-24 bg-[#FEF3C7] rounded-xl border border-[#FDE68A] p-2 rotate-[-4deg] shadow-sm flex flex-col justify-between group-hover:rotate-0 transition-transform">
-              <div className="text-[9px] font-bold text-amber-900"># Key Concept</div>
-              <div className="text-[8px] text-amber-800 line-clamp-3">Active recall strengthens neural pathways...</div>
+              <div className="text-[9px] font-bold text-amber-900">
+                # Key Concept
+              </div>
+              <div className="text-[8px] text-amber-800 line-clamp-3">
+                Active recall strengthens neural pathways...
+              </div>
               <div className="h-1 w-8 bg-amber-400 rounded-full" />
             </div>
             <div className="absolute top-4 right-3 w-24 h-24 bg-[#DFE4F2] rounded-xl border border-[#CBD5E1] p-2 rotate-[6deg] shadow-sm flex flex-col justify-between group-hover:rotate-2 transition-transform">
-              <div className="text-[9px] font-bold text-slate-800">Exam Note</div>
-              <div className="text-[8px] text-slate-600 line-clamp-3">Synthesizes verbatim definitions</div>
+              <div className="text-[9px] font-bold text-slate-800">
+                Exam Note
+              </div>
+              <div className="text-[8px] text-slate-600 line-clamp-3">
+                Synthesizes verbatim definitions
+              </div>
               <div className="h-1 w-6 bg-[#2563EB] rounded-full" />
             </div>
           </div>
         );
 
-      case 'presentation':
+      case "presentation":
         return (
           <div className="relative w-full h-32 bg-[#1E293B] rounded-2xl border border-slate-700 p-3 overflow-hidden shadow-sm flex flex-col justify-between text-white group-hover:scale-102 transition-transform">
             <div className="flex items-center justify-between text-[10px] text-amber-300 font-mono">
@@ -271,8 +291,12 @@ export const Home: React.FC = () => {
               <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
             </div>
             <div>
-              <div className="text-xs font-bold text-white">Quantum Computing</div>
-              <div className="text-[10px] text-slate-400">Superposition & Entanglement</div>
+              <div className="text-xs font-bold text-white">
+                Quantum Computing
+              </div>
+              <div className="text-[10px] text-slate-400">
+                Superposition & Entanglement
+              </div>
             </div>
             <div className="flex gap-1">
               <div className="h-1 flex-1 bg-amber-400 rounded-full" />
@@ -282,7 +306,7 @@ export const Home: React.FC = () => {
           </div>
         );
 
-      case 'mindmap':
+      case "mindmap":
         return (
           <div className="relative w-full h-32 bg-white rounded-2xl border border-[#DFE4F2] p-3 overflow-hidden shadow-sm flex items-center justify-center">
             <div className="flex items-center gap-3">
@@ -302,28 +326,50 @@ export const Home: React.FC = () => {
           </div>
         );
 
-      case 'sheets':
+      case "sheets":
         return (
           <div className="relative w-full h-32 bg-[#F7F8FA] rounded-2xl border border-[#DFE4F2] p-2.5 overflow-hidden shadow-sm">
             <div className="grid grid-cols-3 gap-1 text-[9px] font-mono text-center">
-              <div className="bg-[#DFE4F2] p-1 rounded font-bold text-[#080909]">Metric</div>
-              <div className="bg-[#DFE4F2] p-1 rounded font-bold text-[#080909]">Target</div>
-              <div className="bg-[#DFE4F2] p-1 rounded font-bold text-[#080909]">Status</div>
-              <div className="bg-white p-1 rounded border border-[#DFE4F2]">Calculus</div>
-              <div className="bg-white p-1 rounded border border-[#DFE4F2]">95%</div>
-              <div className="bg-emerald-100 text-emerald-800 p-1 rounded font-bold">Passed</div>
-              <div className="bg-white p-1 rounded border border-[#DFE4F2]">Physics</div>
-              <div className="bg-white p-1 rounded border border-[#DFE4F2]">90%</div>
-              <div className="bg-blue-100 text-blue-800 p-1 rounded font-bold">Review</div>
+              <div className="bg-[#DFE4F2] p-1 rounded font-bold text-[#080909]">
+                Metric
+              </div>
+              <div className="bg-[#DFE4F2] p-1 rounded font-bold text-[#080909]">
+                Target
+              </div>
+              <div className="bg-[#DFE4F2] p-1 rounded font-bold text-[#080909]">
+                Status
+              </div>
+              <div className="bg-white p-1 rounded border border-[#DFE4F2]">
+                Calculus
+              </div>
+              <div className="bg-white p-1 rounded border border-[#DFE4F2]">
+                95%
+              </div>
+              <div className="bg-emerald-100 text-emerald-800 p-1 rounded font-bold">
+                Passed
+              </div>
+              <div className="bg-white p-1 rounded border border-[#DFE4F2]">
+                Physics
+              </div>
+              <div className="bg-white p-1 rounded border border-[#DFE4F2]">
+                90%
+              </div>
+              <div className="bg-blue-100 text-blue-800 p-1 rounded font-bold">
+                Review
+              </div>
             </div>
           </div>
         );
 
-      case 'quiz':
+      case "quiz":
         return (
           <div className="relative w-full h-32 bg-white rounded-2xl border border-[#DFE4F2] p-3 overflow-hidden shadow-sm flex flex-col justify-between">
-            <div className="text-[10px] font-bold text-[#EC4899] font-mono">QUESTION 01</div>
-            <div className="text-[11px] font-medium text-[#080909] line-clamp-1">What is the primary function of DNA?</div>
+            <div className="text-[10px] font-bold text-[#EC4899] font-mono">
+              QUESTION 01
+            </div>
+            <div className="text-[11px] font-medium text-[#080909] line-clamp-1">
+              What is the primary function of DNA?
+            </div>
             <div className="space-y-1">
               <div className="px-2 py-1 rounded bg-[#EC4899]/15 border border-[#EC4899]/30 text-[9px] font-bold text-[#EC4899] flex items-center justify-between">
                 <span>A. Genetic encoding</span>
@@ -336,34 +382,44 @@ export const Home: React.FC = () => {
           </div>
         );
 
-      case 'tutor':
+      case "tutor":
         return (
           <div className="relative w-full h-32 bg-[#F7F8FA] rounded-2xl border border-[#DFE4F2] p-3 overflow-hidden shadow-sm flex flex-col justify-between">
             <div className="flex items-center gap-2">
               <div className="w-5 h-5 rounded-full bg-[#6366F1] flex items-center justify-center text-white text-[10px] font-bold">
                 AI
               </div>
-              <span className="text-[10px] font-bold text-[#080909]">Socratic Tutor</span>
+              <span className="text-[10px] font-bold text-[#080909]">
+                Socratic Tutor
+              </span>
             </div>
             <div className="bg-white rounded-xl p-2 border border-[#DFE4F2] text-[10px] text-[#080909] shadow-xs">
               "Think of a cell membrane like a selective security checkpoint..."
             </div>
-            <div className="text-[9px] text-[#6366F1] font-bold">Analogy + Multi-Tier Explanation</div>
-          </div>
-        );
-
-      case 'flashcards':
-        return (
-          <div className="relative w-full h-32 bg-white rounded-2xl border border-[#DFE4F2] p-3 overflow-hidden shadow-sm flex items-center justify-center">
-            <div className="relative w-36 h-20 bg-gradient-to-tr from-[#8B5CF6] to-[#A78BFA] text-white rounded-xl shadow-md p-3 flex flex-col justify-between group-hover:rotate-3 transition-transform">
-              <span className="text-[9px] font-mono opacity-80">ACTIVE RECALL</span>
-              <span className="text-[11px] font-bold">Photosynthesis Equation</span>
-              <span className="text-[8px] text-right underline opacity-90">Click to flip ↻</span>
+            <div className="text-[9px] text-[#6366F1] font-bold">
+              Analogy + Multi-Tier Explanation
             </div>
           </div>
         );
 
-      case 'planner':
+      case "flashcards":
+        return (
+          <div className="relative w-full h-32 bg-white rounded-2xl border border-[#DFE4F2] p-3 overflow-hidden shadow-sm flex items-center justify-center">
+            <div className="relative w-36 h-20 bg-gradient-to-tr from-[#8B5CF6] to-[#A78BFA] text-white rounded-xl shadow-md p-3 flex flex-col justify-between group-hover:rotate-3 transition-transform">
+              <span className="text-[9px] font-mono opacity-80">
+                ACTIVE RECALL
+              </span>
+              <span className="text-[11px] font-bold">
+                Photosynthesis Equation
+              </span>
+              <span className="text-[8px] text-right underline opacity-90">
+                Click to flip ↻
+              </span>
+            </div>
+          </div>
+        );
+
+      case "planner":
         return (
           <div className="relative w-full h-32 bg-[#F7F8FA] rounded-2xl border border-[#DFE4F2] p-2.5 overflow-hidden shadow-sm flex flex-col justify-between">
             <div className="flex items-center justify-between text-[10px] font-bold text-[#D97706]">
@@ -371,16 +427,32 @@ export const Home: React.FC = () => {
               <span>28 HRS</span>
             </div>
             <div className="grid grid-cols-4 gap-1 text-[8px] text-center font-mono">
-              <div className="bg-amber-100 text-amber-900 p-1 rounded">MON<br/>4h Math</div>
-              <div className="bg-white border border-[#DFE4F2] text-[#080909] p-1 rounded">TUE<br/>3h Phys</div>
-              <div className="bg-amber-100 text-amber-900 p-1 rounded">WED<br/>5h Chem</div>
-              <div className="bg-white border border-[#DFE4F2] text-[#080909] p-1 rounded">THU<br/>4h Bio</div>
+              <div className="bg-amber-100 text-amber-900 p-1 rounded">
+                MON
+                <br />
+                4h Math
+              </div>
+              <div className="bg-white border border-[#DFE4F2] text-[#080909] p-1 rounded">
+                TUE
+                <br />
+                3h Phys
+              </div>
+              <div className="bg-amber-100 text-amber-900 p-1 rounded">
+                WED
+                <br />
+                5h Chem
+              </div>
+              <div className="bg-white border border-[#DFE4F2] text-[#080909] p-1 rounded">
+                THU
+                <br />
+                4h Bio
+              </div>
             </div>
             <div className="h-1 bg-[#D97706] rounded-full w-2/3" />
           </div>
         );
 
-      case 'ocr':
+      case "ocr":
         return (
           <div className="relative w-full h-32 bg-[#0F172A] text-teal-400 rounded-2xl border border-slate-800 p-3 overflow-hidden shadow-sm flex flex-col justify-between font-mono">
             <div className="flex items-center justify-between text-[10px]">
@@ -392,7 +464,9 @@ export const Home: React.FC = () => {
             </div>
             <div className="flex items-center justify-between text-[9px] text-teal-300">
               <span>99.2% Accuracy</span>
-              <span className="bg-teal-900/60 px-1.5 py-0.5 rounded text-white font-bold">OCR ✓</span>
+              <span className="bg-teal-900/60 px-1.5 py-0.5 rounded text-white font-bold">
+                OCR ✓
+              </span>
             </div>
           </div>
         );
@@ -404,21 +478,21 @@ export const Home: React.FC = () => {
 
   const faqs = [
     {
-      q: 'Are all 10 tools functional and free to use?',
-      a: 'Yes, absolutely. All 10 tools are production-ready student workspaces with live AI processing, zero paywalls, zero token subscriptions, and immediate exports.'
+      q: "Are all 10 tools functional and free to use?",
+      a: "Yes, absolutely. All 10 tools are production-ready student workspaces with live AI processing, zero paywalls, zero token subscriptions, and immediate exports.",
     },
     {
-      q: 'How does the AI Resume Builder generate ATS-compliant PDFs?',
-      a: 'The Resume Builder employs standard typography grids, ATS parseable headings, and direct vector PDF generation so no text gets rasterized into an image. It passes automated applicant tracking scanners effortlessly.'
+      q: "How does the AI Resume Builder generate ATS-compliant PDFs?",
+      a: "The Resume Builder employs standard typography grids, ATS parseable headings, and direct vector PDF generation so no text gets rasterized into an image. It passes automated applicant tracking scanners effortlessly.",
     },
     {
-      q: 'Can I upload photos of handwritten notes for the OCR Summarizer?',
-      a: 'Yes! You can take a photo of whiteboard equations or lecture notes, upload it in JPG/PNG/WebP format, inspect the extracted text, and generate a concise revision breakdown.'
+      q: "Can I upload photos of handwritten notes for the OCR Summarizer?",
+      a: "Yes! You can take a photo of whiteboard equations or lecture notes, upload it in JPG/PNG/WebP format, inspect the extracted text, and generate a concise revision breakdown.",
     },
     {
-      q: 'How does the Google Sheets integration work?',
-      a: 'You can hook up any Google Apps Script Web App URL to use Google Sheets as a live zero-maintenance database. Read rows, edit student records, and generate AI insights on your live spreadsheet data.'
-    }
+      q: "How does the Google Sheets integration work?",
+      a: "You can hook up any Google Apps Script Web App URL to use Google Sheets as a live zero-maintenance database. Read rows, edit student records, and generate AI insights on your live spreadsheet data.",
+    },
   ];
 
   return (
@@ -442,14 +516,17 @@ export const Home: React.FC = () => {
 
               {/* Exact user-requested Main Heading */}
               <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-[#080909] leading-[1.04] tracking-tight font-display text-balance">
-                Learn smarter.<br />
-                Create faster.<br />
+                Learn smarter.
+                <br />
+                Create faster.
+                <br />
                 <span className="text-[#7C3AED]">Build with AI.</span>
               </h1>
 
               {/* Exact user-requested Supporting text */}
               <p className="text-lg sm:text-xl text-[#080909]/75 font-body max-w-xl leading-relaxed">
-                10 practical AI-powered tools for students, creators and learners.
+                10 practical AI-powered tools for students, creators and
+                learners.
               </p>
 
               {/* Primary & Secondary CTAs */}
@@ -472,16 +549,28 @@ export const Home: React.FC = () => {
               {/* Editorial Value Proof Stats */}
               <div className="pt-8 border-t border-[#DFE4F2] grid grid-cols-3 gap-6 max-w-lg">
                 <div>
-                  <div className="text-2xl sm:text-3xl font-black font-display text-[#080909]">10</div>
-                  <div className="text-xs text-[#080909]/60 font-body">Working Tools</div>
+                  <div className="text-2xl sm:text-3xl font-black font-display text-[#080909]">
+                    10
+                  </div>
+                  <div className="text-xs text-[#080909]/60 font-body">
+                    Working Tools
+                  </div>
                 </div>
                 <div>
-                  <div className="text-2xl sm:text-3xl font-black font-display text-[#7C3AED]">100%</div>
-                  <div className="text-xs text-[#080909]/60 font-body">Free Access</div>
+                  <div className="text-2xl sm:text-3xl font-black font-display text-[#7C3AED]">
+                    100%
+                  </div>
+                  <div className="text-xs text-[#080909]/60 font-body">
+                    Free Access
+                  </div>
                 </div>
                 <div>
-                  <div className="text-2xl sm:text-3xl font-black font-display text-[#10B981]">Instant</div>
-                  <div className="text-xs text-[#080909]/60 font-body">PDF & Output</div>
+                  <div className="text-2xl sm:text-3xl font-black font-display text-[#10B981]">
+                    Instant
+                  </div>
+                  <div className="text-xs text-[#080909]/60 font-body">
+                    PDF & Output
+                  </div>
                 </div>
               </div>
             </div>
@@ -513,11 +602,14 @@ export const Home: React.FC = () => {
       </section>
 
       {/* 2. TOOL SHOWCASE SECTION */}
-      <section id="tools" className="py-24 relative overflow-hidden bg-gradient-to-b from-[#F7F8FA] to-white border-t border-[#DFE4F2]">
+      <section
+        id="tools"
+        className="py-24 relative overflow-hidden bg-gradient-to-b from-[#F7F8FA] to-white border-t border-[#DFE4F2]"
+      >
         {/* Dynamic Background Elements */}
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-b from-[#7C3AED]/5 to-transparent rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/3" />
         <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-gradient-to-t from-[#2563EB]/5 to-transparent rounded-full blur-3xl pointer-events-none translate-y-1/3 -translate-x-1/4" />
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
           <div className="text-left space-y-4 mb-16 max-w-3xl">
@@ -527,10 +619,16 @@ export const Home: React.FC = () => {
             </div>
             {/* User requested Title */}
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#080909] tracking-tight font-display text-balance leading-[1.1]">
-              10 tools. <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] to-[#EC4899]">One creative</span> learning workspace.
+              10 tools.{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] to-[#EC4899]">
+                One creative
+              </span>{" "}
+              learning workspace.
             </h2>
             <p className="text-lg text-[#080909]/70 font-body leading-relaxed max-w-2xl">
-              Every tool is a fully functional workspace designed for maximum retention, academic rigor, and effortless execution. Powered by Gemini AI.
+              Every tool is a fully functional workspace designed for maximum
+              retention, academic rigor, and effortless execution. Powered by
+              StudyNova AI.
             </p>
           </div>
 
@@ -545,13 +643,18 @@ export const Home: React.FC = () => {
                   key={tool.number}
                   to={tool.route}
                   className={`group relative overflow-hidden bg-white/80  backdrop-blur-xl rounded-3xl border border-white/40  p-6 sm:p-7 flex flex-col justify-between transition-all duration-500 hover:-translate-y-1 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] cursor-pointer text-left ${
-                    isWide ? 'lg:col-span-2' : 'lg:col-span-1'
+                    isWide ? "lg:col-span-2" : "lg:col-span-1"
                   }`}
                 >
                   {/* Glassmorphic Gradient Glow on Hover */}
                   <div className="absolute -inset-px bg-gradient-to-br from-transparent to-transparent group-hover:from-white/50 group-hover:to-white/10 z-0 transition-all duration-500 pointer-events-none rounded-3xl" />
-                  <div className="absolute -inset-4 bg-gradient-to-tr opacity-0 group-hover:opacity-10 transition-opacity duration-500 blur-2xl pointer-events-none z-0" style={{ backgroundImage: `linear-gradient(to top right, ${tool.accent}, transparent)` }} />
-                  
+                  <div
+                    className="absolute -inset-4 bg-gradient-to-tr opacity-0 group-hover:opacity-10 transition-opacity duration-500 blur-2xl pointer-events-none z-0"
+                    style={{
+                      backgroundImage: `linear-gradient(to top right, ${tool.accent}, transparent)`,
+                    }}
+                  />
+
                   <div className="space-y-5 relative z-10">
                     {/* Top Row: Number & Badge */}
                     <div className="flex items-center justify-between">
@@ -625,9 +728,12 @@ export const Home: React.FC = () => {
               <span className="w-10 h-10 rounded-2xl bg-[#7C3AED]/15 text-[#7C3AED] flex items-center justify-center font-black font-mono text-sm">
                 01
               </span>
-              <h3 className="text-xl font-black text-[#080909] font-display">Feed Your Input</h3>
+              <h3 className="text-xl font-black text-[#080909] font-display">
+                Feed Your Input
+              </h3>
               <p className="text-sm text-[#080909]/70 font-body leading-relaxed">
-                Paste raw lecture paragraphs, upload notebook photos, enter chapter titles, or link a live Google Sheet.
+                Paste raw lecture paragraphs, upload notebook photos, enter
+                chapter titles, or link a live Google Sheet.
               </p>
             </div>
 
@@ -635,9 +741,12 @@ export const Home: React.FC = () => {
               <span className="w-10 h-10 rounded-2xl bg-[#2563EB]/15 text-[#2563EB] flex items-center justify-center font-black font-mono text-sm">
                 02
               </span>
-              <h3 className="text-xl font-black text-[#080909] font-display">Intelligent AI Synthesis</h3>
+              <h3 className="text-xl font-black text-[#080909] font-display">
+                Intelligent AI Synthesis
+              </h3>
               <p className="text-sm text-[#080909]/70 font-body leading-relaxed">
-                Gemini processes your material through structured academic frameworks into notes, 3D flipcards, MCQs, or slide decks.
+                Gemini processes your material through structured academic
+                frameworks into notes, 3D flipcards, MCQs, or slide decks.
               </p>
             </div>
 
@@ -645,9 +754,12 @@ export const Home: React.FC = () => {
               <span className="w-10 h-10 rounded-2xl bg-[#10B981]/15 text-[#10B981] flex items-center justify-center font-black font-mono text-sm">
                 03
               </span>
-              <h3 className="text-xl font-black text-[#080909] font-display">Interact & Export</h3>
+              <h3 className="text-xl font-black text-[#080909] font-display">
+                Interact & Export
+              </h3>
               <p className="text-sm text-[#080909]/70 font-body leading-relaxed">
-                Test your memory, present live slides, download vector ATS-friendly PDFs, or copy formatted Markdown.
+                Test your memory, present live slides, download vector
+                ATS-friendly PDFs, or copy formatted Markdown.
               </p>
             </div>
           </div>
@@ -658,7 +770,9 @@ export const Home: React.FC = () => {
       <section className="py-20 border-t border-[#DFE4F2] bg-[#F7F8FA]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-left space-y-8">
           <div className="space-y-2">
-            <div className="text-xs font-bold uppercase tracking-wider text-[#7C3AED]">Questions & Answers</div>
+            <div className="text-xs font-bold uppercase tracking-wider text-[#7C3AED]">
+              Questions & Answers
+            </div>
             <h2 className="text-3xl sm:text-4xl font-black text-[#080909] font-display">
               Everything you need to know.
             </h2>
@@ -677,7 +791,7 @@ export const Home: React.FC = () => {
                   <span className="font-display">{faq.q}</span>
                   <ChevronDown
                     className={`w-4 h-4 text-[#080909]/50 transition-transform ${
-                      openFaq === idx ? 'rotate-180 text-[#7C3AED]' : ''
+                      openFaq === idx ? "rotate-180 text-[#7C3AED]" : ""
                     }`}
                   />
                 </button>
